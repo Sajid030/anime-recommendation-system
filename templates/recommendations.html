@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Recommended Animes</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container-fluid">
+        <h1>Recommended Animes</h1>
+        {% if recommendation_type == "user_based" %}
+            {% if animes is none %}
+                <p>{{ message }}</p>
+            {% elif animes.empty %}
+                <p>No recommendations found for this user.</p>
+            {% else %}
+                <table>
+                    <tr>
+                        <th></th>
+                        <th>Anime Name</th>
+                        <th>Genres</th>
+                        <th>Synopsis</th>
+                        <th>Number of Users Interested</th>
+                    </tr>
+                    {% for anime in animes.iterrows() %}
+                        <tr>
+                            <td><img src="{{ anime[1]['anime_image_url'] }}" alt="{{ anime[1]['Name'] }}"></td>
+                            <td>{{ anime[1]['anime_name'] }}</td>
+                            <td>{{ anime[1]['Genres'] }}</td>
+                            <td>{{ anime[1]['Synopsis'] }}</td>
+                            <td>{{ anime[1]['n'] }}</td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            {% endif %}
+        {% elif recommendation_type == "item_based" %}
+            {% if animes is none %}
+                <p>{{ message }}</p>
+            {% elif animes.empty %}
+                <p>No recommendations found for this anime.</p>
+            {% else %}
+                <table>
+                    <tr>
+                        <th></th>
+                        <th>Anime Name</th>
+                        <th>Genres</th>
+                        <th>Synopsis</th>
+                        <th>Similarity</th>
+                    </tr>
+                    {% for anime in animes.iterrows() %}
+                        <tr>
+                            <td><img src="{{ anime[1]['anime_image_url'] }}" alt="{{ anime[1]['Name'] }}"></td>
+                            <td>{{ anime[1]['Name'] }}</td>
+                            <td>{{ anime[1]['Genres'] }}</td>
+                            <td>{{ anime[1]['Synopsis'] }}</td>
+                            <td>{{ anime[1]['Similarity'] }}</td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            {% endif %}
+        {% endif %}
+        <a href="{{ url_for('home') }}">Go back to Home</a>
+    </div>
+</body>
+</html>
