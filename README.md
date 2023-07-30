@@ -17,11 +17,9 @@
  - [About the Dataset](#about-the-dataset)
  - [Motivation](#motivation)
  - [Installation](#installation)
- - [Deployement on Streamlit](#deployement-on-streamlit)
  - [Directory Tree](#directory-tree)
  - [Bug / Feature Request](#bug--feature-request)
  - [Future scope of project](#future-scope)
- - [Credits](#credits)
 
 ## Demo
 - Link: (Not deployed yet)
@@ -92,10 +90,10 @@ As an anime weeb, I have always been captivated by the fascinating world of anim
 
 ## Installation
 
-This project is written in Python 3.10.10. If you don't have Python installed, you can download it from the [official website](https://www.python.org/downloads/). If you have an older version of Python, you can upgrade it using the pip package manager, which should be already installed if you have Python 2 >=2.7.9 or Python 3 >=3.4 on your system.
+This project is written in Python 3.11.4. If you don't have Python installed, you can download it from the [official website](https://www.python.org/downloads/). If you have an older version of Python, you can upgrade it using the pip package manager, which should be already installed if you have Python 2 >=2.7.9 or Python 3 >=3.4 on your system.
 To install the required packages and libraries, you can use pip and the provided requirements.txt file. First, clone this repository to your local machine using the following command:
 ```
-git clone https://github.com/Sajid030/Lending-Club-Loan-Prediction.git
+https://github.com/Sajid030/anime-recommendation-system.git
 ```
 Once you have cloned the repository, navigate to the project directory and run the following command in your terminal or command prompt:
 ```bash
@@ -103,47 +101,50 @@ pip install -r requirements.txt
 ```
 This will install all the necessary packages and libraries needed to run the project.
 
-## Deployement on Streamlit
-1. Create an account on Streamlit Sharing.
-2. Fork this repository to your GitHub account.
-3. Log in to Streamlit Sharing and create a new app.
-4. Connect your GitHub account to Streamlit Sharing and select this repository.
-5. Set the following configuration variables in the Streamlit Sharing dashboard:
-```
-[server]
-headless = true
-port = $PORT
-enableCORS = false
-```
-6. Click on "Deploy app" to deploy the app on Streamlit Sharing.
+If you prefer, you can also create a virtual environment to manage the project dependencies separately. This helps in isolating the project's environment from the system-wide Python installation.
 
 ## Directory Tree
 
 ```
-├── model
-│   ├── dataset.pkl
-│   ├── my_model.h5
-├── resource 
-│   ├── loanprediction.gif
-├── app.py
-├── LICENSE.md
-├── loan_prediction.ipynb
-├── README.md
-├── requirements.txt
+|   .gitignore
+|   app.py
+|   LICENSE.md
+|   requirements.txt
+|
++---model
+|       anime-dataset-2023.pkl
+|       anime_encoder.pkl
+|       myanimeweights.h5
+|       users-score.csv
+|       user_encoder.pkl
+|
++---notebooks
+|       anime-recommendation-1.ipynb
+|       anime-recommendation-2.ipynb
+|
++---static
+|       style.css
+|
+\---templates
+        index.html
+        recommendations.html
 ```
 
 ## Bug / Feature Request
 
-If you encounter any bugs or issues with the loan status predictor app, please let me know by opening an issue on my [GitHub repository](https://github.com/Sajid030/Lending-Club-Loan-Prediction/issues). Be sure to include the details of your query and the expected results. Your feedback is valuable in helping me improve the app for all users. Thank you for your support!
+If you encounter any bugs or issues with the anime recommendation app, please let me know by opening an issue on my [GitHub repository](https://github.com/Sajid030/anime-recommendation-system/issues). Be sure to include the details of your query and the expected results. Your feedback is valuable in helping me improve the app for all users. Thank you for your support!
 
 ## Future Scope
 
-- Improving the model performance by trying different machine learning algorithms or hyperparameter tuning.
-- Adding more features to the dataset, which could potentially improve the accuracy of the model.
-- Deploying the model on a cloud platform like AWS, GCP or Azure for more scalable and reliable use.
-- Integrating the model with other financial data sources to make more accurate predictions and provide better insights.
-- Using natural language processing techniques to analyze borrower comments or reviews to identify any potential risks or fraud.
-
-## Credits
-- Dataset link : https://www.kaggle.com/datasets/janiobachmann/lending-club-first-dataset
-- Dataset features details :https://github.com/dosei1/Lending-Club-Loan-Data/blob/master/LCDataDictionary.csv
+1. **Implement Hybrid Recommendation System**: Combine collaborative filtering and content-based filtering techniques to create a hybrid recommendation system.
+2. **Include User Feedback and Reviews**: Incorporate user feedback and reviews into the recommendation system to improve the accuracy of recommendations.
+3. **Explore Deep Learning Models**: Experiment with advanced deep learning models, such as RNNs and transformer-based architectures, to enhance recommendation performance.
+4. **Real-Time Recommendation Updates**: Implement a real-time recommendation system that continuously updates suggestions based on users' interactions.
+5. **Integrate External Data Sources**: Consider integrating external data sources, such as user demographics and anime-related news, to personalize recommendations.
+6. **Anime Sentiment Analysis**: Perform sentiment analysis on anime reviews to gauge audience sentiments towards specific animes.
+7. **User Clustering**: Cluster users based on preferences to provide better personalized recommendations and targeted marketing strategies.
+8. **Interactive Web Interface**: Develop a user-friendly web interface for exploring recommendations and detailed anime information.
+9. **Social Media Integration**: Allow users to share favorite animes and recommendations on social media platforms.
+10. **Anime Popularity Trend Analysis**: Conduct time series analysis to identify trends in anime popularity over different seasons and years.
+11. **Personalized Watchlists**: Create personalized watchlists for users, curating a list of animes based on their preferences.
+12. **Sentiment-Based Filtering**: Implement sentiment-based filtering for recommending animes based on users' emotions.
