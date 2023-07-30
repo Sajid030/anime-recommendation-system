@@ -3,7 +3,6 @@
 ![Pandas](https://img.shields.io/badge/-Pandas-150458?logo=pandas&logoColor=white)
 ![NumPy](https://img.shields.io/badge/-NumPy-013243?logo=numpy&logoColor=white)
 ![Plotly](https://img.shields.io/badge/-Plotly-3F4F75?logo=plotly&logoColor=white)
-![WordCloud](https://img.shields.io/badge/-WordCloud-1F77B4?logo=wordcloud&logoColor=white)
 [![scikit-learn](https://img.shields.io/badge/-scikit--learn-F7931E?logo=scikit-learn&logoColor=white)](https://scikit-learn.org/stable/)
 [![Keras Tuner](https://img.shields.io/badge/-Keras%20Tuner-FF6F00?logo=keras&logoColor=white)](https://keras-team.github.io/keras-tuner/)
 [![TensorFlow](https://img.shields.io/badge/-TensorFlow-FF6F00?logo=tensorflow&logoColor=white)](https://www.tensorflow.org/)
@@ -24,19 +23,36 @@
  - [Credits](#credits)
 
 ## Demo
-- Link: https://sajid030-lending-club-loan-prediction-app-428myv.streamlit.app/
+- Link: (Not deployed yet)
 
 Note: If the website link provided above is not working, it might mean that the deployment has been stopped or there are technical issues. We apologize for any inconvenience.
 - Please consider giving a ⭐ to the repository if you find this app useful.
-- A quick preview of the loan prediction app:
+- A quick preview of my anime recommendation system:
 
 ![GIF](resource/loanprediction.gif)
 
-## Overview
+## Overview 🌟📚
+Welcome to the Anime Recommendation System! This project aims to provide personalized anime recommendations based on collaborative filtering techniques. 🎉
 
-Welcome to the Loan Status Prediction app using Streamlit! This app utilizes deep learning to predict the loan status of an applicant, whether it's "Fully Paid" or "Charged Off".
-- **Fully paid:** The applicant has successfully paid back the loan amount along with the interest rate within the given time frame.
-- **Charged-off:** The applicant has not paid the instalments on time for an extended period, resulting in a loan default.
+The application utilizes user-based collaborative filtering to find similar users based on their anime preferences and recommends animes liked by similar users that the target user has not watched yet. Additionally, the system employs item-based collaborative filtering to find similar animes based on their features (e.g., genres, synopsis) and recommends animes similar to the one provided by the user. 🎴📈
+
+The dataset used for training and recommendation includes various anime titles, user ratings, and anime features such as genres and synopses. The model was trained using TensorFlow and Keras to create anime embeddings for both users and animes, facilitating efficient similarity comparisons. 🧠💻
+
+Feel free to explore and enjoy the exciting world of anime recommendations with our innovative system! 💫📺
+
+## Model Files
+
+Due to the large size of the model files, they cannot be directly hosted on GitHub. However, you can still access and download the model files from Google Drive.
+
+To download the model files, please follow these steps:
+
+1. Click on the link below to access the Google Drive folder containing the model files.
+
+   [Download Model Files](link_to_google_drive)
+
+2. In the Google Drive folder, you can find the necessary model files in their respective formats (e.g., .h5, .csv).
+
+Please note that the model files are provided for research and educational purposes only. If you use the model or code, please consider citing this repository.
 
 To use this app, simply fill out the required loan and borrower details, and let the model make the prediction for you. Our app's predictive capabilities are powered by deep learning, allowing for more accurate and reliable results.
 
