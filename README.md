@@ -12,7 +12,7 @@
 ## Table of Contents
 
  - [Demo](#demo)
- - [Overview](#overview)
+ - [Overview](#overview-)
  - [About the Dataset](#about-the-dataset)
  - [Motivation](#motivation)
  - [Installation](#installation)
@@ -40,28 +40,47 @@ The dataset used for training and recommendation includes various anime titles, 
 
 Feel free to explore and enjoy the exciting world of anime recommendations with our innovative system! 💫📺
 
-## Model Files
 
-Due to the large size of the model files, they cannot be directly hosted on GitHub. However, you can still access and download the model files from Google Drive.
+## Code Walkthrough
 
-To download the model files, please follow these steps:
+Welcome to the Code Walkthrough section of the Anime Recommendation System project! This project is divided into two notebooks, which can be found in the `notebooks` folder of this repository. Let's dive into the two notebooks that make up this awesome project:
 
-1. Click on the link below to access the Google Drive folder containing the model files.
+#### Notebook 1: `anime-recommendation-1.ipynb` 📒🔍📊
+In Notebook 1, we embark on a journey into the world of anime data analysis 🚀📊📈. The main objectives of this notebook are as follows:
+- **Understand the dataset**: We take a closer look at the dataset, examining its structure and contents to get familiar with the data.
+- **Perform data preprocessing**: We clean and prepare the data for analysis, ensuring that it's in a suitable format for our recommendation models.
+- **Interactive Data Visualization**: To gain valuable insights, we utilize the power of [Plotly](https://plotly.com/), a fantastic library that provides us with interactive and engaging visualizations. 📊📈💫
 
-   [Download Model Files](link_to_google_drive)
+#### Notebook 2: `anime-recommendation-2.ipynb` 📒🔍🤖
+In Notebook 2, we take the next step in our journey by training our recommendation model 🚀🤖💡.
+- Part 1: Collaborative Filtering 👥🤝
 
-2. In the Google Drive folder, you can find the necessary model files in their respective formats (e.g., .h5, .csv).
+  Here, we delve into collaborative filtering, a popular recommendation technique that suggests animes to users based on the preferences of similar users or similar animes. 🤝📈.
 
-Please note that the model files are provided for research and educational purposes only. If you use the model or code, please consider citing this repository.
+  My key steps were:
+  1. **Data Preprocessing**: I loaded the datasets, perform data scaling, and encode user and anime IDs to prepare the data for model training.
+  2. **Model Architecture**: To facilitate collaborative filtering, I created a neural network-based model. The model uses embeddings to represent users and animes in a lower-dimensional space, capturing their underlying preferences 🧠🔍.
+  3. **Model Training**: Using TensorFlow, I trained the collaborative filtering model to predict user ratings for animes. The optimization process ensures that the model learns to recognize patterns and make accurate recommendations. 📈💡 
+  4. **Recommendation Generation**: With the trained model, we can now find similar animes and users 😎.
 
-To use this app, simply fill out the required loan and borrower details, and let the model make the prediction for you. Our app's predictive capabilities are powered by deep learning, allowing for more accurate and reliable results.
+- Part 2: Content-Based Filtering 📚🔍🎯
+  
+  The second part of this notebook explores content-based filtering, an alternate recommendation technique. Content-based filtering suggests animes to users based on attributes such as genres and ratings. Here, my key steps were:
+  1. **TF-IDF Vectorization**: I created a TF-IDF matrix for anime genres to quantify the importance of genres in each anime's description.
+  2. **Cosine Similarity**: By computing cosine similarity between animes based on their genre descriptions, we can determine their similarity.
+  3. **Content-Based Recommendation**: Leveraging the computed similarity scores and ratings, we now can recommend animes that are similar to a given anime, considering their genre and score.
 
-*Dataset link is provided in the Credits section*
+  We've got an exciting mix of collaborative and content-based filtering models, ensuring we can deliver diverse and accurate anime recommendations tailored to the preferences of each user. 🤗
+
+  Happy anime recommending! 🎊
+
+#### `NOTE`:-
+Due to the large size of the model file i.e `myanimeweights.h5`, it cannot be directly hosted on GitHub. However, you can still access and download the files from my [Google Drive](https://drive.google.com/file/d/1dypdLwProMGxy7h8hi49a-kHiu_nFz1U/view?usp=sharing).
 
 ## About the Dataset
-LendingClub is a US peer-to-peer lending company, headquartered in San Francisco, California. It was the first peer-to-peer lender to register its offerings as securities with the Securities and Exchange Commission (SEC), and to offer loan trading on a secondary market. LendingClub is the world’s largest peer-to-peer lending platform.
 
-In this case study, we will explore how deep learning techniques can be used to predict the loan status of borrowers. This will give us an understanding of how real-world business problems can be solved using advanced machine learning methods. We will also gain insights into risk analytics in banking and financial services, and understand how data can be used to minimize the risk of losing money while lending to customers. By solving this case study, you will be able to build a solid foundation in deep learning and risk analytics, which are highly valued skills in the industry.
+
+
 
 ## Motivation
 
