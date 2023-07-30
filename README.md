@@ -13,6 +13,7 @@
 
  - [Demo](#demo)
  - [Overview](#overview-)
+ - [Code Walkthrough](#code-walkthrough)
  - [About the Dataset](#about-the-dataset)
  - [Motivation](#motivation)
  - [Installation](#installation)
@@ -79,8 +80,11 @@ Due to the large size of the model file i.e `myanimeweights.h5`, it cannot be di
 
 ## About the Dataset
 
+The dataset used in the Anime Recommendation System project offers a wealth of valuable information, encompassing anime characteristics, ratings, popularity, viewership, user behavior, and preferences. It serves as a comprehensive resource for conducting diverse analyses, such as identifying top-rated anime, exploring popular genres, and gaining insights into viewer trends. With this dataset, personalized recommendation systems can be developed, user behavior can be analyzed, and clustering can be employed to understand anime trends and user preferences. Additionally, the dataset enables examination of user interactions, ratings, and engagement with anime, providing essential inputs for collaborative filtering and similarity analysis. Overall, this dataset is instrumental in building an effective recommendation system and deepening our understanding of anime trends and user preferences on the platform. 📈🎌📊
 
+This dataset was built by me. For a detailed overview of the dataset creation process, you can visit my [GitHub repository](https://github.com/Sajid030/anime_dataset_generator), where I have explained the procedure I followed to generate the complete dataset, including the tools and techniques used to create the final dataset.
 
+You can find my complete dataset on [kaggle](https://www.kaggle.com/datasets/dbdmobile/myanimelist-dataset).  If you find this dataset helpful, please consider giving it an upvote to show your appreciation.😊
 
 ## Motivation
 
