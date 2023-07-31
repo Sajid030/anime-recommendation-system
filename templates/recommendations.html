@@ -1,64 +1,205 @@
 <!DOCTYPE html>
 <html>
-<head>
+  <head>
     <title>Recommended Animes</title>
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
-</head>
-<body>
-    <div class="container-fluid">
-        <h1>Recommended Animes</h1>
-        {% if recommendation_type == "user_based" %}
-            {% if animes is none %}
-                <p>{{ message }}</p>
-            {% elif animes.empty %}
-                <p>No recommendations found for this user.</p>
-            {% else %}
-                <table>
-                    <tr>
-                        <th></th>
-                        <th>Anime Name</th>
-                        <th>Genres</th>
-                        <th>Synopsis</th>
-                        <th>Number of Users Interested</th>
-                    </tr>
-                    {% for anime in animes.iterrows() %}
-                        <tr>
-                            <td><img src="{{ anime[1]['anime_image_url'] }}" alt="{{ anime[1]['Name'] }}"></td>
-                            <td>{{ anime[1]['anime_name'] }}</td>
-                            <td>{{ anime[1]['Genres'] }}</td>
-                            <td>{{ anime[1]['Synopsis'] }}</td>
-                            <td>{{ anime[1]['n'] }}</td>
-                        </tr>
-                    {% endfor %}
-                </table>
-            {% endif %}
-        {% elif recommendation_type == "item_based" %}
-            {% if animes is none %}
-                <p>{{ message }}</p>
-            {% elif animes.empty %}
-                <p>No recommendations found for this anime.</p>
-            {% else %}
-                <table>
-                    <tr>
-                        <th></th>
-                        <th>Anime Name</th>
-                        <th>Genres</th>
-                        <th>Synopsis</th>
-                        <th>Similarity</th>
-                    </tr>
-                    {% for anime in animes.iterrows() %}
-                        <tr>
-                            <td><img src="{{ anime[1]['anime_image_url'] }}" alt="{{ anime[1]['Name'] }}"></td>
-                            <td>{{ anime[1]['Name'] }}</td>
-                            <td>{{ anime[1]['Genres'] }}</td>
-                            <td>{{ anime[1]['Synopsis'] }}</td>
-                            <td>{{ anime[1]['Similarity'] }}</td>
-                        </tr>
-                    {% endfor %}
-                </table>
-            {% endif %}
-        {% endif %}
-        <a href="{{ url_for('home') }}">Go back to Home</a>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{{ url_for('static', filename='main.css') }}"
+    />
+  </head>
+  <body>
+    <div class="w-full text-white">
+      <div
+        class="heading text-center text-[3rem] font-bold mt-5 mb-2 text-[#00CC99]"
+      >
+        <p>Recommended Anime</p>
+        <a
+          class="text-sm text-gray-400 hover:underline hover:text-[#00CC99] underline-offset-4"
+          href="{{ url_for('home') }}"
+          >&lt; Go back to Home</a
+        >
+      </div>
+      {% if recommendation_type == "user_based" %} {% if animes is none %}
+      <p>{{ message }}</p>
+      {% elif animes.empty %}
+      <p>No recommendations found for this user.</p>
+      {% else %}
+      <div class="animes mx-7">
+        <div class="flex flex-wrap">
+          {% for anime in animes.iterrows() %}
+          <div
+            class="card_container w-[20rem] flex flex-col rounded-lg overflow-hidden shadow-2xl pb-2 m-3"
+          >
+            <div class="img w-[100%] flex justify-center h-[25rem] bg-gray-400">
+              <img
+                src="{{ anime[1]['anime_image_url'] }}"
+                alt="{{ anime[1]['Name'] }}"
+                class="w-full object-fill"
+              />
+            </div>
+            <div
+              class="meta_info py-2 px-2 w-[100%] text-[1.1rem] flex flex-col justify-between h-full"
+            >
+              <div>
+                <p class="text-[1.4rem] font-semibold">
+                  {{ anime[1]['anime_name'] }}
+                </p>
+                <p class="text-gray-400 font-thin">
+                  {% set synopsis = anime[1]['Synopsis']|trim %} {% if
+                  synopsis|length > 120 %} {{ synopsis[:120] }}... {% else %} {{
+                  synopsis }} {% endif %}
+                </p>
+              </div>
+
+              <div>
+                <p class="text-gray-100 font-thin mt-2">
+                  {% set genres = anime[1]['Genres'].split(',') %} {% for genre
+                  in genres %}
+                  <span class="px-3 bg-[#3871c7] py-1 rounded-xl text-sm"
+                    >{{ genre }}</span
+                  >
+                  {% endfor %}
+                </p>
+                <p class="mt-3 text-gray-400">
+                  Number of users Interested:
+                  <span class="ml-2">{{ anime[1]['n'] }}</span>
+                </p>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+      {% endif %} {% elif recommendation_type == "item_based" %} {% if animes is
+      none %}
+      <p>{{ message }}</p>
+      {% elif animes.empty %}
+      <p>No recommendations found for this anime.</p>
+      {% else %}
+      <div class="animes mx-7">
+        <div class="flex flex-wrap">
+          {% for anime in animes.iterrows() %}
+          <div
+            class="card_container w-[20rem] flex flex-col rounded-lg overflow-hidden shadow-2xl pb-2 m-3"
+          >
+            <div class="img w-[100%] flex justify-center h-[25rem] bg-gray-400">
+              <img
+                src="{{ anime[1]['anime_image_url'] }}"
+                alt="{{ anime[1]['Name'] }}"
+                class="w-full object-fill"
+              />
+            </div>
+            <div
+              class="meta_info py-2 px-2 w-[100%] text-[1.1rem] flex flex-col justify-between h-full"
+            >
+              <div>
+                <p class="text-[1.4rem] font-semibold">
+                  {{ anime[1]['Name'] }}
+                </p>
+                <p class="text-gray-400 font-thin">
+                  {% set synopsis = anime[1]['Synopsis']|trim %} {% if
+                  synopsis|length > 120 %} {{ synopsis[:120] }}... {% else %} {{
+                  synopsis }} {% endif %}
+                </p>
+              </div>
+
+              <div>
+                <p class="text-gray-100 font-thin mt-2">
+                  {% set genres = anime[1]['Genres'].split(',') %} {% for genre
+                  in genres %}
+                  <span class="px-3 bg-[#3871c7] py-1 rounded-xl text-sm"
+                    >{{ genre }}</span
+                  >
+                  {% endfor %}
+                </p>
+                <p class="mt-3 text-gray-400">
+                  Similarity
+                  <span class="ml-2">{{ anime[1]['Similarity'] }}</span>
+                </p>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+      {% endif %} {% endif %}
+      <a
+        class="block text-center text-2xl mt-3 hover:underline hover:underline-offset-8 mx-auto text-[#00CC99] active:underline active:underline-[#00CC99] active:underline-offset-1"
+        href="{{ url_for('home') }}"
+        >Go back to Home</a
+      >
     </div>
-</body>
+
+    <!-- I commented your code here -->
+    <!-- <div class="container-fluid">
+      <h1>Recommended Animes</h1>
+      {% if recommendation_type == "user_based" %} {% if animes is none %}
+      <p>{{ message }}</p>
+      {% elif animes.empty %}
+      <p>No recommendations found for this user.</p>
+      {% else %}
+      <table>
+        <tr>
+          <th></th>
+          <th>Anime Name</th>
+          <th>Genres</th>
+          <th>Synopsis</th>
+          <th>Number of Users Interested</th>
+        </tr>
+        {% for anime in animes.iterrows() %}
+        <tr>
+          <td>
+            <img
+              src="{{ anime[1]['anime_image_url'] }}"
+              alt="{{ anime[1]['Name'] }}"
+            />
+          </td>
+          <td>{{ anime[1]['anime_name'] }}</td>
+          <td>{{ anime[1]['Genres'] }}</td>
+          <td>{{ anime[1]['Synopsis'] }}</td>
+          <td>{{ anime[1]['n'] }}</td>
+        </tr>
+        {% endfor %}
+      </table>
+      {% endif %} {% elif recommendation_type == "item_based" %} {% if animes is
+      none %}
+      <p>{{ message }}</p>
+      {% elif animes.empty %}
+      <p>No recommendations found for this anime.</p>
+      {% else %}
+      <table>
+        <tr>
+          <th></th>
+          <th>Anime Name</th>
+          <th>Genres</th>
+          <th>Synopsis</th>
+          <th>Similarity</th>
+        </tr>
+        {% for anime in animes.iterrows() %}
+        <tr>
+          <td>
+            <img
+              src="{{ anime[1]['anime_image_url'] }}"
+              alt="{{ anime[1]['Name'] }}"
+            />
+          </td>
+          <td>{{ anime[1]['Name'] }}</td>
+          <td>{{ anime[1]['Genres'] }}</td>
+          <td>{{ anime[1]['Synopsis'] }}</td>
+          <td>{{ anime[1]['Similarity'] }}</td>
+        </tr>
+        {% endfor %}
+      </table>
+      {% endif %} {% endif %}
+      <a href="{{ url_for('home') }}">Go back to Home</a>
+    </div> -->
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        let synopsis = document.querySelector(".synopsis");
+        synopsis.textContent = synopsis.textContent.trim().slice(0, 120);
+        console.log(synopsis);
+      });
+    </script>
+  </body>
 </html>

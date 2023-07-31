@@ -1,4 +1,5 @@
 # Anime Recommendation System🎌
+
 [![Python](https://img.shields.io/badge/-Python-3776AB?logo=python&logoColor=white)](https://www.python.org/)
 ![Pandas](https://img.shields.io/badge/-Pandas-150458?logo=pandas&logoColor=white)
 ![NumPy](https://img.shields.io/badge/-NumPy-013243?logo=numpy&logoColor=white)
@@ -11,26 +12,29 @@
 
 ## Table of Contents
 
- - [Demo](#demo)
- - [Overview](#overview-)
- - [Code Walkthrough](#code-walkthrough)
- - [About the Dataset](#about-the-dataset)
- - [Motivation](#motivation)
- - [Installation](#installation)
- - [Directory Tree](#directory-tree)
- - [Bug / Feature Request](#bug--feature-request)
- - [Future scope of project](#future-scope)
+- [Demo](#demo)
+- [Overview](#overview-)
+- [Code Walkthrough](#code-walkthrough)
+- [About the Dataset](#about-the-dataset)
+- [Motivation](#motivation)
+- [Installation](#installation)
+- [Directory Tree](#directory-tree)
+- [Bug / Feature Request](#bug--feature-request)
+- [Future scope of project](#future-scope)
 
 ## Demo
+
 - Link: (Not deployed yet)
 
 Note: If the website link provided above is not working, it might mean that the deployment has been stopped or there are technical issues. We apologize for any inconvenience.
+
 - Please consider giving a ⭐ to the repository if you find this app useful.
 - A quick preview of my anime recommendation system:
 
 ![GIF](resource/loanprediction.gif)
 
 ## Overview 🌟📚
+
 Welcome to the Anime Recommendation System! This project aims to provide personalized anime recommendations based on collaborative filtering techniques. 🎉
 
 The application utilizes user-based collaborative filtering to find similar users based on their anime preferences and recommends animes liked by similar users that the target user has not watched yet. Additionally, the system employs item-based collaborative filtering to find similar animes based on their features (e.g., genres, synopsis) and recommends animes similar to the one provided by the user. 🎴📈
@@ -39,32 +43,37 @@ The dataset used for training and recommendation includes various anime titles, 
 
 Feel free to explore and enjoy the exciting world of anime recommendations with our innovative system! 💫📺
 
-
 ## Code Walkthrough
 
 Welcome to the Code Walkthrough section of the Anime Recommendation System project! This project is divided into two notebooks, which can be found in the `notebooks` folder of this repository. Let's dive into the two notebooks that make up this awesome project:
 
 #### Notebook 1: `anime-recommendation-1.ipynb` 📒🔍📊
+
 In Notebook 1, we embark on a journey into the world of anime data analysis 🚀📊📈. The main objectives of this notebook are as follows:
+
 - **Understand the dataset**: We take a closer look at the dataset, examining its structure and contents to get familiar with the data.
 - **Perform data preprocessing**: We clean and prepare the data for analysis, ensuring that it's in a suitable format for our recommendation models.
 - **Interactive Data Visualization**: To gain valuable insights, we utilize the power of [Plotly](https://plotly.com/), a fantastic library that provides us with interactive and engaging visualizations. 📊📈💫
 
 #### Notebook 2: `anime-recommendation-2.ipynb` 📒🔍🤖
+
 In Notebook 2, we take the next step in our journey by training our recommendation model 🚀🤖💡.
+
 - Part 1: Collaborative Filtering 👥🤝
 
   Here, we delve into collaborative filtering, a popular recommendation technique that suggests animes to users based on the preferences of similar users or similar animes. 🤝📈.
 
   My key steps were:
+
   1. **Data Preprocessing**: I loaded the datasets, perform data scaling, and encode user and anime IDs to prepare the data for model training.
   2. **Model Architecture**: To facilitate collaborative filtering, I created a neural network-based model. The model uses embeddings to represent users and animes in a lower-dimensional space, capturing their underlying preferences 🧠🔍.
-  3. **Model Training**: Using TensorFlow, I trained the collaborative filtering model to predict user ratings for animes. The optimization process ensures that the model learns to recognize patterns and make accurate recommendations. 📈💡 
+  3. **Model Training**: Using TensorFlow, I trained the collaborative filtering model to predict user ratings for animes. The optimization process ensures that the model learns to recognize patterns and make accurate recommendations. 📈💡
   4. **Recommendation Generation**: With the trained model, we can now find similar animes and users 😎.
 
 - Part 2: Content-Based Filtering 📚🔍🎯
-  
+
   The second part of this notebook explores content-based filtering, an alternate recommendation technique. Content-based filtering suggests animes to users based on attributes such as genres and ratings. Here, my key steps were:
+
   1. **TF-IDF Vectorization**: I created a TF-IDF matrix for anime genres to quantify the importance of genres in each anime's description.
   2. **Cosine Similarity**: By computing cosine similarity between animes based on their genre descriptions, we can determine their similarity.
   3. **Content-Based Recommendation**: Leveraging the computed similarity scores and ratings, we now can recommend animes that are similar to a given anime, considering their genre and score.
@@ -74,6 +83,7 @@ In Notebook 2, we take the next step in our journey by training our recommendati
   Happy anime recommending! 🎊
 
 #### `NOTE`:-
+
 Due to the large size of the model file i.e `myanimeweights.h5`, it cannot be directly hosted on GitHub. However, you can still access and download the files from my [Google Drive](https://drive.google.com/file/d/1dypdLwProMGxy7h8hi49a-kHiu_nFz1U/view?usp=sharing).
 
 ## About the Dataset
@@ -82,7 +92,7 @@ The dataset used in the Anime Recommendation System project offers a wealth of v
 
 This dataset was built by me. For a detailed overview of the dataset creation process, you can visit my [GitHub repository](https://github.com/Sajid030/anime_dataset_generator), where I have explained the procedure I followed to generate the complete dataset, including the tools and techniques used to create the final dataset.
 
-You can find my complete dataset on [kaggle](https://www.kaggle.com/datasets/dbdmobile/myanimelist-dataset).  If you find this dataset helpful, please consider giving it an upvote to show your appreciation.😊
+You can find my complete dataset on [kaggle](https://www.kaggle.com/datasets/dbdmobile/myanimelist-dataset). If you find this dataset helpful, please consider giving it an upvote to show your appreciation.😊
 
 ## Motivation
 
@@ -92,13 +102,17 @@ As an anime weeb, I have always been captivated by the fascinating world of anim
 
 This project is written in Python 3.11.4. If you don't have Python installed, you can download it from the [official website](https://www.python.org/downloads/). If you have an older version of Python, you can upgrade it using the pip package manager, which should be already installed if you have Python 2 >=2.7.9 or Python 3 >=3.4 on your system.
 To install the required packages and libraries, you can use pip and the provided requirements.txt file. First, clone this repository to your local machine using the following command:
+
 ```
 https://github.com/Sajid030/anime-recommendation-system.git
 ```
+
 Once you have cloned the repository, navigate to the project directory and run the following command in your terminal or command prompt:
+
 ```bash
 pip install -r requirements.txt
 ```
+
 This will install all the necessary packages and libraries needed to run the project.
 
 If you prefer, you can also create a virtual environment to manage the project dependencies separately. This helps in isolating the project's environment from the system-wide Python installation.
