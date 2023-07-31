@@ -9,29 +9,29 @@
     />
   </head>
   <body>
-    <div class="w-full text-white">
-      <div
-        class="heading text-center text-[3rem] font-bold mt-5 mb-2 text-[#00CC99]"
+    <div
+      class="heading text-center text-[3rem] font-bold mt-5 mb-2 text-[#00CC99]"
+    >
+      <p>Recommended Anime</p>
+      <a
+        class="text-sm text-gray-400 hover:underline hover:text-[#00CC99] underline-offset-4"
+        href="{{ url_for('home') }}"
+        >&lt; Go back to Home</a
       >
-        <p>Recommended Anime</p>
-        <a
-          class="text-sm text-gray-400 hover:underline hover:text-[#00CC99] underline-offset-4"
-          href="{{ url_for('home') }}"
-          >&lt; Go back to Home</a
-        >
-      </div>
+    </div>
+    <div class="w-full text-white">
       {% if recommendation_type == "user_based" %} {% if animes is none %}
       <p>{{ message }}</p>
       {% elif animes.empty %}
       <p>No recommendations found for this user.</p>
       {% else %}
-      <div class="animes mx-7">
-        <div class="flex flex-wrap">
+      <div class="animes w-full flex ">
+        <div class="flex flex-wrap justify-center ">
           {% for anime in animes.iterrows() %}
           <div
-            class="card_container w-[20rem] flex flex-col rounded-lg overflow-hidden shadow-2xl pb-2 m-3"
+            class="card_container w-[18rem] flex flex-col rounded-2xl overflow-hidden shadow-2xl pb-2 m-3 bg-[#1c1c1cec]"
           >
-            <div class="img w-[100%] flex justify-center h-[25rem] bg-gray-400">
+            <div class="img w-[100%] flex justify-center h-[15rem] bg-gray-400">
               <img
                 src="{{ anime[1]['anime_image_url'] }}"
                 alt="{{ anime[1]['Name'] }}"
@@ -42,10 +42,12 @@
               class="meta_info py-2 px-2 w-[100%] text-[1.1rem] flex flex-col justify-between h-full"
             >
               <div>
-                <p class="text-[1.4rem] font-semibold">
-                  {{ anime[1]['anime_name'] }}
+                <p class="text-[1.2rem] font-medium">
+                  {% set anime_name = anime[1]['anime_name']|trim %} {% if
+                  anime_name|length > 22 %} {{ anime_name[:22] }} ... {% else %} {{
+                  anime_name }} {% endif %}
                 </p>
-                <p class="text-gray-400 font-thin">
+                <p class="text-gray-400 font-thin text-[0.9rem] mt-1">
                   {% set synopsis = anime[1]['Synopsis']|trim %} {% if
                   synopsis|length > 120 %} {{ synopsis[:120] }}... {% else %} {{
                   synopsis }} {% endif %}
@@ -53,15 +55,17 @@
               </div>
 
               <div>
-                <p class="text-gray-100 font-thin mt-2">
+                <div class="text-gray-100 font-thin mt-5 flex flex-wrap gap-2 items-baseline">
                   {% set genres = anime[1]['Genres'].split(',') %} {% for genre
-                  in genres %}
-                  <span class="px-3 bg-[#3871c7] py-1 rounded-xl text-sm"
-                    >{{ genre }}</span
+                  in genres[:3] %}
+                  <span class="px-3 bg-[#3871c7] py-1 rounded-xl text-sm "
+                    >{% set genre = genre|trim %} {% if
+                  genre|length > 12 %} {{ genre[:9] }}... {% else %} {{
+                  genre }} {% endif %}</span
                   >
                   {% endfor %}
-                </p>
-                <p class="mt-3 text-gray-400">
+                </div>
+                <p class="mt-3 text-gray-400 text-[0.9rem]">
                   Number of users Interested:
                   <span class="ml-2">{{ anime[1]['n'] }}</span>
                 </p>
@@ -77,13 +81,13 @@
       {% elif animes.empty %}
       <p>No recommendations found for this anime.</p>
       {% else %}
-      <div class="animes mx-7">
-        <div class="flex flex-wrap">
+      <div class="animes w-full flex ">
+        <div class="flex flex-wrap justify-center ">
           {% for anime in animes.iterrows() %}
           <div
-            class="card_container w-[20rem] flex flex-col rounded-lg overflow-hidden shadow-2xl pb-2 m-3"
+            class="card_container w-[18rem] flex flex-col rounded-2xl overflow-hidden shadow-2xl pb-2 m-3 bg-[#1c1c1cec]"
           >
-            <div class="img w-[100%] flex justify-center h-[25rem] bg-gray-400">
+            <div class="img w-[100%] flex justify-center h-[15rem] bg-gray-400">
               <img
                 src="{{ anime[1]['anime_image_url'] }}"
                 alt="{{ anime[1]['Name'] }}"
@@ -94,10 +98,12 @@
               class="meta_info py-2 px-2 w-[100%] text-[1.1rem] flex flex-col justify-between h-full"
             >
               <div>
-                <p class="text-[1.4rem] font-semibold">
-                  {{ anime[1]['Name'] }}
+                <p class="text-[1.2rem] font-medium">
+                  {% set anime_name = anime[1]['Name']|trim %} {% if
+                  anime_name|length > 22 %} {{ anime_name[:22] }} ... {% else %} {{
+                  anime_name }} {% endif %}
                 </p>
-                <p class="text-gray-400 font-thin">
+                <p class="text-gray-400 font-thin text-[0.9rem] mt-1">
                   {% set synopsis = anime[1]['Synopsis']|trim %} {% if
                   synopsis|length > 120 %} {{ synopsis[:120] }}... {% else %} {{
                   synopsis }} {% endif %}
@@ -105,15 +111,17 @@
               </div>
 
               <div>
-                <p class="text-gray-100 font-thin mt-2">
+                <div class="text-gray-100 font-thin mt-5 flex flex-wrap gap-2 items-baseline">
                   {% set genres = anime[1]['Genres'].split(',') %} {% for genre
-                  in genres %}
-                  <span class="px-3 bg-[#3871c7] py-1 rounded-xl text-sm"
-                    >{{ genre }}</span
+                  in genres[:3] %}
+                  <span class="px-3 bg-[#3871c7] py-1 rounded-xl text-sm "
+                    >{% set genre = genre|trim %} {% if
+                  genre|length > 12 %} {{ genre[:9] }}... {% else %} {{
+                  genre }} {% endif %}</span
                   >
                   {% endfor %}
-                </p>
-                <p class="mt-3 text-gray-400">
+                </div>
+                <p class="mt-3 text-gray-400 text-[0.9rem]">
                   Similarity
                   <span class="ml-2">{{ anime[1]['Similarity'] }}</span>
                 </p>
