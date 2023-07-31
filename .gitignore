@@ -1,3 +1,7 @@
 *.csv
 *.h5
 node_modules
+packgage.json
+tailwind.config.js
+Pipfile
+Pipfile.lock
