@@ -1,0 +1,26 @@
+{
+  // settings.json
+  "emmet.includeLanguages": {
+    "jinja2": "html",
+    "jinja-html": "html",
+    "django-html": "html"
+  },
+  "[jinja]": {
+    "editor.defaultFormatter": "monosans.djlint",
+    "editor.detectIndentation": false,
+    "editor.tabSize": 2,
+    "editor.formatOnSave": true
+  },
+  "[jinja-html]": {
+    "editor.defaultFormatter": "monosans.djlint",
+    "editor.detectIndentation": false,
+    "editor.tabSize": 2,
+    "editor.formatOnSave": true
+  },
+  "[django-html]": {
+    "editor.defaultFormatter": "monosans.djlint",
+    "editor.detectIndentation": false,
+    "editor.tabSize": 2,
+    "editor.formatOnPaste": true
+  }
+}
