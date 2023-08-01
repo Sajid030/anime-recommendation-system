@@ -23,7 +23,7 @@
       {% if recommendation_type == "user_based" %} {% if animes is none %}
       <p>{{ message }}</p>
       {% elif animes.empty %}
-      <p>No recommendations found for this user.</p>
+      <p>{{ message }}</p>
       {% else %}
       <div class="animes w-full flex ">
         <div class="flex flex-wrap justify-center ">

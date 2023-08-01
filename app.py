@@ -3,6 +3,7 @@ import numpy as np
 import pandas as pd
 import pickle
 import h5py
+import requests
 
 app = Flask(__name__)
 
@@ -41,7 +42,7 @@ with open('model/anime-dataset-2023.pkl', 'rb') as file:
     df_anime = pickle.load(file)
     
 # Load the user ratings dataset
-df=pd.read_csv('model/users-score.csv', low_memory=True)
+df=pd.read_csv('model/users-score-2023.csv', low_memory=True)
 
 # Home route
 @app.route('/')
@@ -180,7 +181,16 @@ def recommend():
         # Find similar users based on preferences
         similar_user_ids = find_similar_users(user_id, n=15, neg=False)
         if similar_user_ids is None or similar_user_ids.empty:
-            message1 = "User with user_id " + str(user_id) + " not found in the database"
+            url = f'https://api.jikan.moe/v4/users/userbyid/{user_id}'  # Check if the user_id exists using Jikan API
+            response = requests.get(url)
+            if response.status_code == 200:
+                data = response.json()
+                if 'data' not in data:
+                    message1 = "Available"
+                else:
+                    message1 = "No anime recommendations available for the given user.(REASON :- User may not have rated any anime)"
+            else:
+                message1 = "User with user_id " + str(user_id) + " does not exist in the database."
             return render_template('recommendations.html', message=message1, animes=None, recommendation_type=recommendation_type)
 
         similar_user_ids = similar_user_ids[similar_user_ids.similarity > 0.4]
