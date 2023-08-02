@@ -41,6 +41,8 @@ with open('model/user_encoder.pkl', 'rb') as file:
 with open('model/anime-dataset-2023.pkl', 'rb') as file:
     df_anime = pickle.load(file)
     
+df_anime = df_anime.replace("UNKNOWN", "")
+    
 # Load the user ratings dataset
 df=pd.read_csv('model/users-score-2023.csv', low_memory=True)
 
@@ -111,18 +113,83 @@ def get_recommended_animes(similar_users, user_pref, n=10):
             try:
                 anime_image_url = df_anime[df_anime['Name'] == anime_name]['Image URL'].values[0]
                 anime_id = df_anime[df_anime.Name == anime_name].anime_id.values[0]
-                # english_name = df_anime[df_anime['Name'] == anime_name]['English name'].values[0]
-                # name = english_name if english_name != "UNKNOWN" else anime_name
-                genre = df_anime[df_anime.Name == anime_name].Genres.values[0]
+                genre = df_anime[df_anime.Name == anime_name].Genres.values[0]                
                 Synopsis = df_anime[df_anime.Name == anime_name].Synopsis.values[0]
                 n_user_pref = anime_count.get(anime_id, 0)  # Get the total count of users who have watched this anime
-                recommended_animes.append({
-                    "anime_image_url": anime_image_url,
-                    "n": n_user_pref,
-                    "anime_name": anime_name, 
-                    "Genres": genre, 
-                    "Synopsis": Synopsis
-                })
+                english_name = df_anime[df_anime.Name == anime_name]['English name'].values[0]
+                other_name = df_anime[df_anime.Name == anime_name]['Other name'].values[0]
+                score = df_anime[df_anime.Name == anime_name].Score.values[0]
+                Type = df_anime[df_anime.Name == anime_name].Type.values[0]
+                status = df_anime[df_anime.Name == anime_name].Status.values[0]
+                aired = df_anime[df_anime.Name == anime_name].Aired.values[0]
+                episodes = df_anime[df_anime.Name == anime_name].Episodes.values[0]
+                premiered = df_anime[df_anime.Name == anime_name].Premiered.values[0]
+                studios = df_anime[df_anime.Name == anime_name].Studios.values[0]
+                source = df_anime[df_anime.Name == anime_name].Source.values[0]
+                rating = df_anime[df_anime.Name == anime_name].Rating.values[0]
+                rank = df_anime[df_anime.Name == anime_name].Rank.values[0]
+                favorites = df_anime[df_anime.Name == anime_name].Favorites.values[0]
+                duration = df_anime[df_anime.Name == anime_name].Duration.values[0]
+                
+                # Handling status column values
+                if status == "Not yet aired" and aired == "Not available":
+                    aired = "TBA"
+                else:
+                    aired = "" if aired == "Not available" else aired.replace(" to ", "-")
+
+                # Handling episodes column values
+                if episodes != "":
+                    episodes = int(float(episodes))
+                    if status == "Currently Airing":
+                        episodes = str(episodes)+"+ EPS"
+                    else:
+                        episodes = str(episodes)+" EPS"
+                else:
+                    if status == "Currently Airing":
+                        aired_year = df_anime[df_anime.Name == anime_name].Aired.values[0]
+                        if ',' in aired_year:
+                            aired_year = aired_year.split(',')[1].strip()
+                            aired_year = aired_year.split(' to ')[0].strip()
+                        else:
+                            aired_year = aired_year.split(' to ')[0].strip()
+                        if aired_year != "Not available" and int(aired_year) <= 2020:
+                            episodes = "∞"
+                        else:
+                            episodes = ""
+                    else:
+                        episodes = ""
+
+                # Handling Rating column values
+                rating = rating if rating == "" else rating.split(' - ')[0]
+                
+                # Handling Rank column values
+                rank = rank if rank == "" else "#"+str(int(float(rank)))
+                
+                # Making new column episode_duration
+                episode_duration = ""
+                if episodes != "":
+                    time = ""
+                    if 'hr' in duration:
+                        hours, minutes = 0, 0
+                        time_parts = duration.split()
+                        for i in range(len(time_parts)):
+                            if time_parts[i] == "hr":
+                                hours = int(time_parts[i-1])
+                            elif time_parts[i] == "min":
+                                minutes = int(time_parts[i-1])
+                        time = str(hours * 60 + minutes) + " min"
+                    else:
+                        time= duration.replace(" per ep","")
+                    episode_duration = "("+ episodes + "  x " + time +")"
+                else:
+                    episode_duration = "("+ duration +")"
+
+
+                recommended_animes.append({"anime_image_url": anime_image_url, "n": n_user_pref,"anime_name": anime_name, "Genres": genre,
+                                           "Synopsis": Synopsis,"English Name": english_name,"Native name": other_name,"Score": score,
+                                           "Type": Type, "Aired": aired, "Premiered": premiered, "Episodes": episodes, "Status": status,
+                                           "Studios": studios,"Source": source, "Rating": rating, "Rank": rank, "Favorites": favorites,
+                                           "Duration": duration, "Episode Duration": episode_duration})
             except:
                 pass
     return pd.DataFrame(recommended_animes)
@@ -150,13 +217,86 @@ def find_similar_animes(name, n=10, return_dist=False, neg=False):
             anime_frame = df_anime[df_anime['anime_id'] == decoded_id]
             anime_image_url = anime_frame['Image URL'].values[0]
             anime_name = anime_frame['Name'].values[0]
-            # english_name = anime_frame['English name'].values[0]
-            # name = english_name if english_name != "UNKNOWN" else anime_name
             genre = anime_frame['Genres'].values[0]
             Synopsis = anime_frame['Synopsis'].values[0]
             similarity = dists[close]
             similarity = "{:.2f}%".format(similarity * 100)
-            SimilarityArr.append({"anime_image_url": anime_image_url, "Name": anime_name, "Similarity": similarity, "Genres": genre, "Synopsis":Synopsis})
+            
+            english_name = anime_frame['English name'].values[0]
+            other_name = anime_frame['Other name'].values[0]
+            score = anime_frame['Score'].values[0]
+            Type = anime_frame['Type'].values[0]
+            other_name = anime_frame['Other name'].values[0]
+            status = anime_frame['Status'].values[0]
+            aired = anime_frame['Aired'].values[0]
+            episodes = anime_frame['Episodes'].values[0]
+            premiered = anime_frame['Premiered'].values[0]
+            studios = anime_frame['Studios'].values[0]
+            source = anime_frame['Source'].values[0]
+            rating = anime_frame['Rating'].values[0]
+            rank = anime_frame['Rank'].values[0]
+            favorites = anime_frame['Favorites'].values[0]
+            duration = anime_frame['Duration'].values[0]
+            
+            # Handling status column values
+            if status == "Not yet aired" and aired == "Not available":
+                aired = "TBA"
+            else:
+                aired = "" if aired == "Not available" else aired.replace(" to ", "-")
+                
+            # Handling episodes column values
+            if episodes != "":
+                episodes = int(float(episodes))
+                if status == "Currently Airing":
+                    episodes = str(episodes)+"+ EPS"
+                else:
+                    episodes = str(episodes)+" EPS"
+            else:
+                if status == "Currently Airing":
+                    aired_year = anime_frame['Aired'].values[0]
+                    if ',' in aired_year:
+                        aired_year = aired_year.split(',')[1].strip()
+                        aired_year = aired_year.split(' to ')[0].strip()
+                    else:
+                        aired_year = aired_year.split(' to ')[0].strip()
+                    if aired_year != "Not available" and int(aired_year) <= 2020:
+                        episodes = "∞"
+                    else:
+                        episodes = ""
+                else:
+                    episodes = ""
+                
+            # Handling Rating column values
+            rating = rating if rating == "" else rating.split(' - ')[0]
+            
+            # Handling Rank column values
+            rank = rank if rank == "" else "#"+str(int(float(rank)))
+            
+            # Making new column episode_duration
+            episode_duration = ""
+            if episodes != "":
+                time = ""
+                if 'hr' in duration:
+                    hours, minutes = 0, 0
+                    time_parts = duration.split()
+                    for i in range(len(time_parts)):
+                        if time_parts[i] == "hr":
+                            hours = int(time_parts[i-1])
+                        elif time_parts[i] == "min":
+                            minutes = int(time_parts[i-1])
+                    time = str(hours * 60 + minutes) + " min"
+                else:
+                    time= duration.replace(" per ep","")
+                episode_duration = "("+ episodes + "  x " + time +")"
+            else:
+                episode_duration = "("+ duration +")"
+            
+            
+            SimilarityArr.append({"anime_image_url": anime_image_url,"Name": anime_name, "Similarity": similarity, "Genres": genre,
+                                  "Synopsis":Synopsis,"English Name": english_name,"Native name": other_name,"Score": score,"Type": Type,
+                                  "Aired": aired, "Premiered": premiered, "Episodes": episodes, "Status": status, "Studios": studios,
+                                  "Source": source, "Rating": rating, "Rank": rank, "Favorites": favorites,"Duration": duration,
+                                  "Episode Duration": episode_duration})
         Frame = pd.DataFrame(SimilarityArr).sort_values(by="Similarity", ascending=False)
         return Frame[Frame.Name != name]
     except:

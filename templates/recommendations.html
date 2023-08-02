@@ -61,7 +61,7 @@
                   {% set genres = anime[1]['Genres'].split(',') %} {% for genre
                   in genres[:3] %}
                   <span class="px-2 bg-[#3871c7] py-[1px] rounded-xl text-sm"
-                    >{% set genre = genre|trim %} {% if genre|length > 6 %} {{
+                    >{% set genre = genre|trim %} {% if genre|length > 7 %} {{
                     genre[:3] }}... {% else %} {{ genre }} {% endif %}</span
                   >
                   {% endfor %}
@@ -118,7 +118,7 @@
                   {% set genres = anime[1]['Genres'].split(',') %} {% for genre
                   in genres[:3] %}
                   <span class="px-2 bg-[#3871c7] py-[1px] rounded-xl text-sm"
-                    >{% set genre = genre|trim %} {% if genre|length > 6 %} {{
+                    >{% set genre = genre|trim %} {% if genre|length > 7 %} {{
                     genre[:3] }}... {% else %} {{ genre }} {% endif %}</span
                   >
                   {% endfor %}
@@ -156,6 +156,23 @@
           <th>Genres</th>
           <th>Synopsis</th>
           <th>Number of Users Interested</th>
+
+          <th>English Name</th>
+          <th>Native name</th>
+          <th>Score</th>
+          <th>Type</th>
+          <th>Aired</th>
+          <th>Premiered</th>
+          <th>Episodes</th>
+          <th>Status</th>
+          <th>Studios</th>
+          <th>Source</th>
+          <th>Rating</th>
+          <th>Rank</th>
+          <th>Favorites</th>
+          <th>Duration</th>
+          <th>Episode Duration</th>
+
         </tr>
         {% for anime in animes.iterrows() %}
         <tr>
@@ -169,6 +186,23 @@
           <td>{{ anime[1]['Genres'] }}</td>
           <td>{{ anime[1]['Synopsis'] }}</td>
           <td>{{ anime[1]['n'] }}</td>
+
+          <td>{{ anime[1]['English Name'] }}</td>
+          <td>{{ anime[1]['Native name'] }}</td>
+          <td>{{ anime[1]['Score'] }}</td>
+          <td>{{ anime[1]['Type'] }}</td>
+          <td>{{ anime[1]['Aired'] }}</td>
+          <td>{{ anime[1]['Premiered'] }}</td>
+          <td>{{ anime[1]['Episodes'] }}</td>
+          <td>{{ anime[1]['Status'] }}</td>
+          <td>{{ anime[1]['Studios'] }}</td>
+          <td>{{ anime[1]['Source'] }}</td>
+          <td>{{ anime[1]['Rating'] }}</td>
+          <td>{{ anime[1]['Rank'] }}</td>
+          <td>{{ anime[1]['Favorites'] }}</td>
+          <td>{{ anime[1]['Duration'] }}</td>
+          <td>{{ anime[1]['Episode Duration'] }}</td>
+
         </tr>
         {% endfor %}
       </table>
@@ -185,6 +219,23 @@
           <th>Genres</th>
           <th>Synopsis</th>
           <th>Similarity</th>
+
+          <th>English Name</th>
+          <th>Native name</th>
+          <th>Score</th>
+          <th>Type</th>
+          <th>Aired</th>
+          <th>Premiered</th>
+          <th>Episodes</th>
+          <th>Status</th>
+          <th>Studios</th>
+          <th>Source</th>
+          <th>Rating</th>
+          <th>Rank</th>
+          <th>Favorites</th>
+          <th>Duration</th>
+          <th>Episode Duration</th>
+
         </tr>
         {% for anime in animes.iterrows() %}
         <tr>
@@ -198,6 +249,23 @@
           <td>{{ anime[1]['Genres'] }}</td>
           <td>{{ anime[1]['Synopsis'] }}</td>
           <td>{{ anime[1]['Similarity'] }}</td>
+
+          <td>{{ anime[1]['English Name'] }}</td>
+          <td>{{ anime[1]['Native name'] }}</td>
+          <td>{{ anime[1]['Score'] }}</td>
+          <td>{{ anime[1]['Type'] }}</td>
+          <td>{{ anime[1]['Aired'] }}</td>
+          <td>{{ anime[1]['Premiered'] }}</td>
+          <td>{{ anime[1]['Episodes'] }}</td>
+          <td>{{ anime[1]['Status'] }}</td>
+          <td>{{ anime[1]['Studios'] }}</td>
+          <td>{{ anime[1]['Source'] }}</td>
+          <td>{{ anime[1]['Rating'] }}</td>
+          <td>{{ anime[1]['Rank'] }}</td>
+          <td>{{ anime[1]['Favorites'] }}</td>
+          <td>{{ anime[1]['Duration'] }}</td>
+          <td>{{ anime[1]['Episode Duration'] }}</td>
+          
         </tr>
         {% endfor %}
       </table>
