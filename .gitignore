@@ -1,7 +1,17 @@
 *.csv
 *.h5
-node_modules
-packgage.json
-tailwind.config.js
+
+
+# Python dependencies
 Pipfile
 Pipfile.lock
+
+# Node.js dependencies
+node_modules
+
+# Tailwind CSS configuration
+tailwind.config.js
+
+# JavaScript dependencies
+package.json
+package-lock.json
