@@ -75,3 +75,25 @@ input[type="submit"]:hover {
 #anime_id_input {
   display: none;
 }
+
+::-webkit-scrollbar {
+  width: 10px;
+  border-radius: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: #fff;
+  border-radius: 12px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #00cc99;
+  border-radius: 12px;
+  width: 10px;
+  height: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #005472;
+  /* Set the color of the scroll bar thumb on hover */
+}

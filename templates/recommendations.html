@@ -53,12 +53,11 @@
                 >
                   <div class="flex gap-1">
                     <p class="bg-white px-1 rounded-sm">
-                      <span><i class="bx bxs-captions mr-1"></i></span>{{
-                      anime[1]['Episodes'].split(" ")[0] }}
+                      <span><i class="bx bxs-user mr-1"></i></span>{{
+                      anime[1]['n'] }}
                     </p>
                     <p class="bg-[#7AFCFD] px-1 rounded-sm">
-                      <span><i class="bx bxs-microphone mr-1"></i></span>{{
-                      anime[1]['Rating'] }}
+                      {{ anime[1]['Rating'] }}
                     </p>
                   </div>
                   <div class="flex">
@@ -134,10 +133,10 @@
                   </p>
                 </div>
               </div>
-              <p class="anime_synopsis text-[0.9rem]">
-                {% if anime[1]['Synopsis']|length > 150 %} {{
-                anime[1]['Synopsis'][:150] }}... {% else %} {{
-                anime[1]['Synopsis'] }} {% endif %}
+              <p
+                class="anime_synopsis text-[0.9rem] h-[5rem] overflow-y-scroll"
+              >
+                {{ anime[1]['Synopsis'] }}
               </p>
               <div class="anime_info text-[0.9rem] flex flex-col gap-[1px]">
                 <p>
@@ -160,12 +159,14 @@
                 </p>
               </div>
               <div class="text-[1.1rem] text-black flex gap-2">
-                <button
-                  class="flex justify-center gap-1 items-center watch_now w-[70%] rounded-3xl bg-[#CAE962] py-2 text-center"
+                <a
+                  href="https://myanimelist.net/anime/{{anime[1]['anime_id']}}"
+                  target="_blank"
+                  class="flex justify-center gap-1 items-center watch_now w-[70%] rounded-3xl bg-[#CAE962] hover:bg-[#a9c54e] py-2 text-center"
                 >
                   <span class="h-min"><i class="bx bx-play"></i></span>
-                  <span>Watch now</span>
-                </button>
+                  <span> Watch now</span>
+                </a>
                 <button
                   class="add_btn bg-white rounded-full w-10 font-bold flex justify-center items-center"
                 >
@@ -206,11 +207,9 @@
                 >
                   <div class="flex gap-1">
                     <p class="bg-white px-1 rounded-sm">
-                      <span><i class="bx bxs-captions mr-1"></i></span>{{
-                      anime[1]['Episodes'].split(" ")[0] }}
+                      <span></span>{{ anime[1]['Similarity'] }}
                     </p>
                     <p class="bg-[#7AFCFD] px-1 rounded-sm">
-                      <span><i class="bx bxs-microphone mr-1"></i></span>
                       {{ anime[1]['Rating'] }}
                     </p>
                   </div>
@@ -259,7 +258,7 @@
               </div>
             </div>
             <div
-              class="text-gray-300 p-5 hidden peer-hover:flex flex-col gap-4 dynamicContainer w-96 rounded-lg bg-[#4E515E] absolute z-10 top-0"
+              class="text-gray-300 p-5 hidden flex-col gap-4 dynamicContainer w-96 rounded-lg bg-[#4E515E] absolute z-10 top-0"
             >
               <p
                 class="text-white anime_name text-[1.1rem] font-medium max-w-[80%]"
@@ -286,10 +285,10 @@
                   </p>
                 </div>
               </div>
-              <p class="anime_synopsis text-[0.9rem]">
-                {% if anime[1]['Synopsis']|length > 150 %} {{
-                anime[1]['Synopsis'][:150] }}... {% else %} {{
-                anime[1]['Synopsis'] }} {% endif %}
+              <p
+                class="anime_synopsis text-[0.9rem] h-[5rem] overflow-y-scroll"
+              >
+                {{ anime[1]['Synopsis'] }}
               </p>
               <div class="anime_info text-[0.9rem] flex flex-col gap-[1px]">
                 <p>
@@ -312,12 +311,14 @@
                 </p>
               </div>
               <div class="text-[1.1rem] text-black flex gap-2">
-                <button
-                  class="flex justify-center gap-1 items-center watch_now w-[70%] rounded-3xl bg-[#CAE962] py-2 text-center"
+                <a
+                  href="https://myanimelist.net/anime/{{anime[1]['anime_id']}}"
+                  target="_blank"
+                  class="flex justify-center gap-1 items-center watch_now w-[70%] rounded-3xl bg-[#CAE962] hover:bg-[#a9c54e] py-2 text-center"
                 >
                   <span class="h-min"><i class="bx bx-play"></i></span>
-                  <span>Watch now</span>
-                </button>
+                  <span> Watch now</span>
+                </a>
                 <button
                   class="add_btn bg-white rounded-full w-10 font-bold flex justify-center items-center"
                 >
@@ -473,6 +474,49 @@
         const dynamicContainers =
           document.querySelectorAll(".dynamicContainer");
 
+        const cards = document.querySelectorAll(".card_super_container");
+
+        let currentHoveredCard = null;
+        let dynamicContainerTimeout;
+
+        cards.forEach((card) => {
+          let dynamicContainerInsideCard =
+            card.querySelector(".dynamicContainer");
+
+          card.addEventListener("mouseenter", (e) => {
+            if (currentHoveredCard) {
+              let previousDynamicContainer =
+                currentHoveredCard.querySelector(".dynamicContainer");
+              previousDynamicContainer.style.display = "none";
+              clearTimeout(dynamicContainerTimeout);
+            }
+
+            currentHoveredCard = card;
+
+            dynamicContainerInsideCard.style.display = "flex";
+
+            dynamicContainerTimeout = setTimeout(() => {
+              dynamicContainerInsideCard.style.display = "none";
+            }, 5000);
+          });
+
+          card.addEventListener("mouseleave", () => {
+            dynamicContainerInsideCard.style.display = "none";
+            clearTimeout(dynamicContainerTimeout);
+          });
+
+          dynamicContainerInsideCard.addEventListener("mouseenter", () => {
+            clearTimeout(dynamicContainerTimeout);
+            dynamicContainerInsideCard.style.display = "flex";
+          });
+
+          dynamicContainerInsideCard.addEventListener("mouseleave", () => {
+            dynamicContainerTimeout = setTimeout(() => {
+              dynamicContainerInsideCard.style.display = "none";
+            }, 5000);
+          });
+        });
+
         function positionDynamicContainers() {
           dynamicContainers.forEach((dynamicContainer) => {
             const dynamicContentRect =
@@ -486,7 +530,7 @@
             console.log(dynamicContainerWidth);
 
             if (spaceOnLeft >= dynamicContainerWidth) {
-              dynamicContainer.style.left = `-${dynamicContainerWidth}px`;
+              dynamicContainer.style.left = `-${dynamicContainerWidth - 30}px`;
               dynamicContainer.style.right = "auto";
             } else if (spaceOnRight >= dynamicContainerWidth) {
               dynamicContainer.style.right = `-${dynamicContainerWidth}px`;
