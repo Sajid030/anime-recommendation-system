@@ -17,6 +17,7 @@
 - [Code Walkthrough](#code-walkthrough)
 - [About the Dataset](#about-the-dataset)
 - [Motivation](#motivation)
+- [Acknowledgments](#acknowledgments)
 - [Installation](#installation)
 - [Directory Tree](#directory-tree)
 - [Bug / Feature Request](#bug--feature-request)
@@ -97,6 +98,10 @@ You can find my complete dataset on [kaggle](https://www.kaggle.com/datasets/dbd
 ## Motivation
 
 As an anime weeb, I have always been captivated by the fascinating world of anime. The colorful characters, gripping storylines, and imaginative worlds never fail to spark my imagination and evoke a sense of wonder. It didn't take long for me to realize that the joy I experienced while watching animes could be elevated to another level by bringing the magic of anime recommendations into real life. The idea of creating an Anime Recommendation System took root in my mind, and I embarked on this exciting journey to develop a platform that could intelligently suggest animes based on individual preferences. This project allowed me to combine my passion for anime with the fascinating realm of data science and machine learning, enabling me to create a personalized anime discovery experience for myself and fellow anime enthusiasts. With every line of code written and every model trained, I found myself one step closer to bridging the gap between my love for anime and the power of technology to make anime-watching experiences even more enjoyable. Join me as I unravel the world of anime recommendations and witness the magic of data-driven suggestions that open up new horizons in the anime universe! 🌟🎬🚀
+
+## Acknowledgments
+
+A big shoutout to my friend [Aditya Singh Rawat](https://github.com/unreal0901) for their invaluable contribution to this project. Their design skills and collaboration were essential in bringing the Anime Recommendation App to life. 🙌
 
 ## Installation
 
