@@ -25,9 +25,9 @@
     </div>
     <div class="w-full text-white">
       {% if recommendation_type == "user_based" %} {% if animes is none %}
-      <p>{{ message }}</p>
+      <p class="flex items-center justify-center">{{ message }}</p>
       {% elif animes.empty %}
-      <p>{{ message }}</p>
+      <p class="flex items-center justify-center">{{ message }}</p>
       {% else %}
       <div class="animes w-full flex animeContainer">
         <div class="flex flex-wrap justify-center">
@@ -79,22 +79,6 @@
                 </div>
 
                 <div class="flex items-center gap-2 mt-1">
-                  <!-- <div
-                    class="text-gray-100 font-thin mt-5 flex flex-wrap gap-2 items-baseline"
-                  >
-                    {% set genres = anime[1]['Genres'].split(',') %} {% for genre
-                    in genres[:3] %}
-                    <span class="px-2 bg-[#3871c7] py-[1px] rounded-xl text-sm"
-                      >{% set genre = genre|trim %} {% if genre|length > 7 %} {{
-                      genre[:3] }}... {% else %} {{ genre }} {% endif %}</span
-                    >
-                    {% endfor %}
-                  </div> -->
-                  <!-- <p class="mt-3 text-gray-400 text-[0.9rem]">
-                    Users Interested:
-                    <span class="ml-2">{{ anime[1]['n'] }}</span>
-                  </p> -->
-
                   <p class="font-normal text-[0.8rem] text-gray-400">
                     {{ anime[1]['Type'] }}
                   </p>
@@ -180,9 +164,9 @@
       </div>
       {% endif %} {% elif recommendation_type == "item_based" %} {% if animes is
       none %}
-      <p>{{ message }}</p>
+      <p class="flex items-center justify-center">{{ message }}</p>
       {% elif animes.empty %}
-      <p>No recommendations found for this anime.</p>
+      <p class="flex items-center justify-center">No recommendations found for this anime.</p>
       {% else %}
       <div class="animes w-full flex">
         <div class="flex flex-wrap justify-center">
@@ -232,21 +216,6 @@
                 </div>
 
                 <div class="flex items-center gap-2 mt-1">
-                  <!-- <div
-                  class="text-gray-100 font-thin mt-5 flex flex-wrap gap-2 items-baseline"
-                >
-                  {% set genres = anime[1]['Genres'].split(',') %} {% for genre
-                  in genres[:3] %}
-                  <span class="px-2 bg-[#3871c7] py-[1px] rounded-xl text-sm"
-                    >{% set genre = genre|trim %} {% if genre|length > 7 %} {{
-                    genre[:3] }}... {% else %} {{ genre }} {% endif %}</span
-                  >
-                  {% endfor %}
-                </div>
-                <p class="mt-3 text-gray-400 text-[0.9rem]">
-                  Similarity
-                  <span class="ml-2">{{ anime[1]['Similarity'] }}</span>
-                </p> -->
                   <p class="font-normal text-[0.8rem] text-gray-400">
                     {{ anime[1]['Type'] }}
                   </p>
@@ -338,137 +307,6 @@
       >
     </div>
 
-    <!-- I commented your code here -->
-    <!-- <div class="container-fluid">
-      <h1>Recommended Animes</h1>
-      {% if recommendation_type == "user_based" %} {% if animes is none %}
-      <p>{{ message }}</p>
-      {% elif animes.empty %}
-      <p>No recommendations found for this user.</p>
-      {% else %}
-      <table>
-        <tr>
-          <th></th>
-          <th>Anime Name</th>
-          <th>Genres</th>
-          <th>Synopsis</th>
-          <th>Number of Users Interested</th>
-
-          <th>English Name</th>
-          <th>Native name</th>
-          <th>Score</th>
-          <th>Type</th>
-          <th>Aired</th>
-          <th>Premiered</th>
-          <th>Episodes</th>
-          <th>Status</th>
-          <th>Studios</th>
-          <th>Source</th>
-          <th>Rating</th>
-          <th>Rank</th>
-          <th>Favorites</th>
-          <th>Duration</th>
-          <th>Episode Duration</th>
-
-        </tr>
-        {% for anime in animes.iterrows() %}
-        <tr>
-          <td>
-            <img
-              src="{{ anime[1]['anime_image_url'] }}"
-              alt="{{ anime[1]['Name'] }}"
-            />
-          </td>
-          <td>{{ anime[1]['anime_name'] }}</td>
-          <td>{{ anime[1]['Genres'] }}</td>
-          <td>{{ anime[1]['Synopsis'] }}</td>
-          <td>{{ anime[1]['n'] }}</td>
-
-          <td>{{ anime[1]['English Name'] }}</td>
-          <td>{{ anime[1]['Native name'] }}</td>
-          <td>{{ anime[1]['Score'] }}</td>
-          <td>{{ anime[1]['Type'] }}</td>
-          <td>{{ anime[1]['Aired'] }}</td>
-          <td>{{ anime[1]['Premiered'] }}</td>
-          <td>{{ anime[1]['Episodes'] }}</td>
-          <td>{{ anime[1]['Status'] }}</td>
-          <td>{{ anime[1]['Studios'] }}</td>
-          <td>{{ anime[1]['Source'] }}</td>
-          <td>{{ anime[1]['Rating'] }}</td>
-          <td>{{ anime[1]['Rank'] }}</td>
-          <td>{{ anime[1]['Favorites'] }}</td>
-          <td>{{ anime[1]['Duration'] }}</td>
-          <td>{{ anime[1]['Episode Duration'] }}</td>
-
-        </tr>
-        {% endfor %}
-      </table>
-      {% endif %} {% elif recommendation_type == "item_based" %} {% if animes is
-      none %}
-      <p>{{ message }}</p>
-      {% elif animes.empty %}
-      <p>No recommendations found for this anime.</p>
-      {% else %}
-      <table>
-        <tr>
-          <th></th>
-          <th>Anime Name</th>
-          <th>Genres</th>
-          <th>Synopsis</th>
-          <th>Similarity</th>
-
-          <th>English Name</th>
-          <th>Native name</th>
-          <th>Score</th>
-          <th>Type</th>
-          <th>Aired</th>
-          <th>Premiered</th>
-          <th>Episodes</th>
-          <th>Status</th>
-          <th>Studios</th>
-          <th>Source</th>
-          <th>Rating</th>
-          <th>Rank</th>
-          <th>Favorites</th>
-          <th>Duration</th>
-          <th>Episode Duration</th>
-
-        </tr>
-        {% for anime in animes.iterrows() %}
-        <tr>
-          <td>
-            <img
-              src="{{ anime[1]['anime_image_url'] }}"
-              alt="{{ anime[1]['Name'] }}"
-            />
-          </td>
-          <td>{{ anime[1]['Name'] }}</td>
-          <td>{{ anime[1]['Genres'] }}</td>
-          <td>{{ anime[1]['Synopsis'] }}</td>
-          <td>{{ anime[1]['Similarity'] }}</td>
-
-          <td>{{ anime[1]['English Name'] }}</td>
-          <td>{{ anime[1]['Native name'] }}</td>
-          <td>{{ anime[1]['Score'] }}</td>
-          <td>{{ anime[1]['Type'] }}</td>
-          <td>{{ anime[1]['Aired'] }}</td>
-          <td>{{ anime[1]['Premiered'] }}</td>
-          <td>{{ anime[1]['Episodes'] }}</td>
-          <td>{{ anime[1]['Status'] }}</td>
-          <td>{{ anime[1]['Studios'] }}</td>
-          <td>{{ anime[1]['Source'] }}</td>
-          <td>{{ anime[1]['Rating'] }}</td>
-          <td>{{ anime[1]['Rank'] }}</td>
-          <td>{{ anime[1]['Favorites'] }}</td>
-          <td>{{ anime[1]['Duration'] }}</td>
-          <td>{{ anime[1]['Episode Duration'] }}</td>
-          
-        </tr>
-        {% endfor %}
-      </table>
-      {% endif %} {% endif %}
-      <a href="{{ url_for('home') }}">Go back to Home</a>
-    </div> -->
     <script>
       document.addEventListener("DOMContentLoaded", function () {
         const dynamicContainers =
