@@ -189,7 +189,7 @@ def get_recommended_animes(similar_users, user_pref, n=10):
                                            "Synopsis": Synopsis,"English Name": english_name,"Native name": other_name,"Score": score,
                                            "Type": Type, "Aired": aired, "Premiered": premiered, "Episodes": episodes, "Status": status,
                                            "Studios": studios,"Source": source, "Rating": rating, "Rank": rank, "Favorites": favorites,
-                                           "Duration": duration, "Episode Duration": episode_duration})
+                                           "Duration": duration, "Episode Duration": episode_duration,"anime_id":anime_id})
             except:
                 pass
     return pd.DataFrame(recommended_animes)
@@ -215,6 +215,7 @@ def find_similar_animes(name, n=10, return_dist=False, neg=False):
         for close in closest:
             decoded_id = anime_encoder.inverse_transform([close])[0]
             anime_frame = df_anime[df_anime['anime_id'] == decoded_id]
+            anime_id=anime_frame['anime_id'].values[0]
             anime_image_url = anime_frame['Image URL'].values[0]
             anime_name = anime_frame['Name'].values[0]
             genre = anime_frame['Genres'].values[0]
@@ -296,7 +297,7 @@ def find_similar_animes(name, n=10, return_dist=False, neg=False):
                                   "Synopsis":Synopsis,"English Name": english_name,"Native name": other_name,"Score": score,"Type": Type,
                                   "Aired": aired, "Premiered": premiered, "Episodes": episodes, "Status": status, "Studios": studios,
                                   "Source": source, "Rating": rating, "Rank": rank, "Favorites": favorites,"Duration": duration,
-                                  "Episode Duration": episode_duration})
+                                  "Episode Duration": episode_duration,"anime_id":anime_id})
         Frame = pd.DataFrame(SimilarityArr).sort_values(by="Similarity", ascending=False)
         return Frame[Frame.Name != name]
     except:
