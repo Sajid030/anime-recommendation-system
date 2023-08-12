@@ -32,7 +32,7 @@ Note: If the website link provided above is not working, it might mean that the 
 - Please consider giving a ⭐ to the repository if you find this app useful.
 - A quick preview of my anime recommendation system:
 
-![GIF](resource/loanprediction.gif)
+![GIF](resource/anime.gif)
 
 ## Overview 🌟📚
 
