@@ -32,7 +32,7 @@ Note: If the website link provided above is not working, it might mean that the 
 - Please consider giving a ⭐ to the repository if you find this app useful.
 - A quick preview of my anime recommendation system:
 
-![GIF](resource/anime.gif)
+https://github.com/Sajid030/anime-recommendation-system/assets/126476034/756fafed-7caf-4811-af46-8a8888e6f14b
 
 ## Overview 🌟📚
 
