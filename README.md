@@ -128,20 +128,27 @@ If you prefer, you can also create a virtual environment to manage the project d
 |   .gitignore
 |   app.py
 |   LICENSE.md
+|   package-lock.json
+|   package.json
+|   README.md
 |   requirements.txt
 |
 +---model
 |       anime-dataset-2023.pkl
 |       anime_encoder.pkl
 |       myanimeweights.h5
-|       users-score.csv
+|       users-score-2023.csv
 |       user_encoder.pkl
 |
 +---notebooks
 |       anime-recommendation-1.ipynb
 |       anime-recommendation-2.ipynb
 |
++---resource
+|       anime.mp4
+|
 +---static
+|       main.css
 |       style.css
 |
 \---templates
