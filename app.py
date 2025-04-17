@@ -4,7 +4,6 @@ import pandas as pd
 import pickle
 import h5py
 import requests
-
 app = Flask(__name__)
 
 def extract_weights(file_path, layer_name):
