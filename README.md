@@ -174,3 +174,4 @@ If you encounter any bugs or issues with the anime recommendation app, please le
 10. **Anime Popularity Trend Analysis**: Conduct time series analysis to identify trends in anime popularity over different seasons and years.
 11. **Personalized Watchlists**: Create personalized watchlists for users, curating a list of animes based on their preferences.
 12. **Sentiment-Based Filtering**: Implement sentiment-based filtering for recommending animes based on users' emotions.
+hello
