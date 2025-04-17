@@ -31,6 +31,7 @@ user_weights = extract_weights(file_path, 'user_embedding/user_embedding/embeddi
 anime_weights=anime_weights[0]
 user_weights=user_weights[0]
 
+# Also an anime model
 with open('model/anime_encoder.pkl', 'rb') as file:
     anime_encoder = pickle.load(file)
 
@@ -42,6 +43,7 @@ with open('model/anime-dataset-2023.pkl', 'rb') as file:
     df_anime = pickle.load(file)
     
 df_anime = df_anime.replace("UNKNOWN", "")
+
     
 # Load the user ratings dataset
 df=pd.read_csv('model/users-score-2023.csv', low_memory=True)
