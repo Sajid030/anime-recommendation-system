@@ -4,6 +4,29 @@ import pandas as pd
 import pickle
 import h5py
 import requests
+def recommend_by_genre(genre, n=10):
+    filtered = df_anime[df_anime['Genres'].str.contains(genre, case=False, na=False)]
+    avg_ratings = df.groupby('anime_id')['rating'].mean().reset_index()
+    avg_ratings.columns = ['anime_id', 'avg_rating']
+    merged = pd.merge(filtered, avg_ratings, on='anime_id')
+    top = merged.sort_values('avg_rating', ascending=False).head(50)
+    sample = top.sample(n=min(n, len(top)))
+    return [{
+        'anime_name': row['Name'],
+        'Genres': row['Genres'],
+        'Score': row['Score'],
+        'Synopsis': row['Synopsis'],
+        'Image URL': row['Image URL'],
+        'anime_id': row['anime_id'],
+        'Rating': row['Rating'],
+        'Episodes': row['Episodes'],
+        'Type': row['Type'],
+        'Aired': row['Aired'],
+        'English Name': row['English name'],
+        'Native name': row['Other name'],
+        'Status': row['Status']
+    } for _, row in sample.iterrows()]
+
 app = Flask(__name__)
 
 def extract_weights(file_path, layer_name):
@@ -39,11 +62,18 @@ with open('model/user_encoder.pkl', 'rb') as file:
 # Load the dataset for additional information
 with open('model/anime-dataset-2023.pkl', 'rb') as file:
     df_anime = pickle.load(file)
+print("Anime DataFrame loaded:", type(df_anime))
+print("DataFrame shape:", df_anime.shape)
+print("Available columns:", df_anime.columns.tolist())
+print("First few rows:\n", df_anime.head())
+
     
 df_anime = df_anime.replace("UNKNOWN", "")
     
 # Load the user ratings dataset
 df=pd.read_csv('model/users-score-2023.csv', low_memory=True)
+
+
 
 # Home route
 @app.route('/')
@@ -310,18 +340,17 @@ def recommend():
 
     if recommendation_type == "user_based":
         user_id = request.form['user_id']
-        
+
         if not user_id:
             return render_template('index.html', error_message="Please enter a User ID.", recommendation_type=recommendation_type)
         try:
             user_id = int(user_id)
         except ValueError:
             return render_template('index.html', error_message="Please enter a valid User ID (must be an integer).", recommendation_type=recommendation_type)
-        
-        # Find similar users based on preferences
+
         similar_user_ids = find_similar_users(user_id, n=15, neg=False)
         if similar_user_ids is None or similar_user_ids.empty:
-            url = f'https://api.jikan.moe/v4/users/userbyid/{user_id}'  # Check if the user_id exists using Jikan API
+            url = f'https://api.jikan.moe/v4/users/userbyid/{user_id}'
             response = requests.get(url)
             if response.status_code == 200:
                 data = response.json()
@@ -336,39 +365,83 @@ def recommend():
         similar_user_ids = similar_user_ids[similar_user_ids.similarity > 0.4]
         similar_user_ids = similar_user_ids[similar_user_ids.similar_users != user_id]
 
-        # Get user preferences from the dataset
         user_pref = get_user_preferences(user_id)
-
-        # Get recommended animes for the user
         recommended_animes = get_recommended_animes(similar_user_ids, user_pref, n=num_recommendations)
         return render_template('recommendations.html', animes=recommended_animes, recommendation_type=recommendation_type)
 
     elif recommendation_type == "item_based":
-        anime_name = request.form['anime_name']
-        
-        if not anime_name:
-            return render_template('index.html', error_message="Please enter Anime name.", recommendation_type=recommendation_type)
-        
-        recommended_animes = find_similar_animes(anime_name, n=num_recommendations, return_dist=False, neg=False)
-        if recommended_animes is None or recommended_animes.empty:
-            message2 = "Anime " + str(anime_name) + " does not exist"
-            return render_template('recommendations.html', message=message2, animes=None, recommendation_type=recommendation_type)
-        
-        return render_template('recommendations.html', animes=recommended_animes, recommendation_type=recommendation_type)
+        item_mode = request.form.get('item_mode')
+
+        if item_mode == "title":
+            anime_name = request.form['anime_name']
+
+            if not anime_name:
+                return render_template('index.html', error_message="Please enter Anime name.", recommendation_type=recommendation_type)
+
+            recommended_animes = find_similar_animes(anime_name, n=num_recommendations, return_dist=False, neg=False)
+            if recommended_animes is None or recommended_animes.empty:
+                message2 = "Anime " + str(anime_name) + " does not exist"
+                return render_template('recommendations.html', message=message2, animes=None, recommendation_type=recommendation_type)
+
+            return render_template('recommendations.html', animes=recommended_animes, recommendation_type=recommendation_type)
+
+        elif item_mode == "genre":
+            genre = request.form['genre_input']
+
+            if not genre:
+                return render_template('index.html', error_message="Please select a genre.", recommendation_type=recommendation_type)
+
+            genre_filtered = df_anime[df_anime['Genres'].str.contains(genre, case=False, na=False)].copy()
+            genre_filtered = genre_filtered.sort_values(by='Score', ascending=False).head(num_recommendations)
+
+            recommendations = []
+            for _, row in genre_filtered.iterrows():
+                try:
+                    recommendations.append({
+                        "anime_image_url": row['Image URL'],
+                        "anime_name": row['Name'],
+                        "Genres": row['Genres'],
+                        "Synopsis": row['Synopsis'],
+                        "English Name": row['English name'],
+                        "Native name": row['Other name'],
+                        "Score": row['Score'],
+                        "Type": row['Type'],
+                        "Aired": row['Aired'],
+                        "Premiered": row['Premiered'],
+                        "Episodes": row['Episodes'],
+                        "Status": row['Status'],
+                        "Studios": row['Studios'],
+                        "Source": row['Source'],
+                        "Rating": row['Rating'],
+                        "Rank": row['Rank'],
+                        "Favorites": row['Favorites'],
+                        "Duration": row['Duration'],
+                        "anime_id": row['anime_id']
+                    })
+                except:
+                    continue
+
+            recommended_df = pd.DataFrame(recommendations)
+            return render_template('recommendations.html', animes=recommended_df, recommendation_type=recommendation_type)
+
+        else:
+            return render_template('index.html', error_message="Please select a valid item-based mode.", recommendation_type=recommendation_type)
 
     else:
         return render_template('index.html', error_message="Please select a recommendation type.")
 
+
 # New route to handle anime name autocomplete
 @app.route('/autocomplete', methods=['GET'])
 def autocomplete():
-    search_term = request.args.get('term')
+    search_term = request.args.get('term', '')
     if search_term:
-        filtered_animes = df_anime[df_anime['Name'].str.contains(search_term, case=False)]
+        filtered_animes = df_anime[df_anime['Name'].str.contains(search_term, case=False, na=False)]
         anime_names = filtered_animes['Name'].tolist()
-    # else:
-    #     anime_names = df_anime['Name'].tolist()
+    else:
+        anime_names = []
     return jsonify(anime_names)
+
 
 if __name__ == '__main__':
     app.run(debug=True)
