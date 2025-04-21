@@ -20,20 +20,30 @@
         action="{{ url_for('recommend') }}"
         method="post"
       >
-        <label for="recommendation_type" class=""
-          >Select Recommendation Type:</label
-        >
+        <label for="recommendation_type">Select Recommendation Type:</label>
         <select id="recommendation_type" name="recommendation_type" required>
           <option value="">-- Select Recommendation Type --</option>
           <option value="user_based">User-based</option>
           <option value="item_based">Item-based</option>
         </select>
 
+        <!-- User ID input -->
         <div id="user_id_input" style="display: none">
           <label for="user_id">Enter User ID:</label>
           <input type="text" id="user_id" name="user_id" />
         </div>
 
+        <!-- Subtype selector for item-based -->
+        <div id="item_based_subtype" style="display: none">
+          <label for="item_mode">Choose Recommendation Mode:</label>
+          <select id="item_mode" name="item_mode">
+            <option value="">-- Select Mode --</option>
+            <option value="title">Title-based</option>
+            <option value="genre">Genre-based</option>
+          </select>
+        </div>
+
+        <!-- Anime title input -->
         <div id="anime_name_input" style="display: none">
           <label for="anime_name">Enter Anime Name:</label>
           <input
@@ -41,10 +51,30 @@
             id="anime_name"
             name="anime_name"
             list="anime_list"
+            placeholder="e.g. Naruto"
           />
           <datalist id="anime_list"></datalist>
         </div>
 
+        <!-- Genre dropdown -->
+        <div id="genre_input_block" style="display: none">
+          <label for="genre_input">Select Genre:</label>
+          <select id="genre_input" name="genre_input">
+            <option value="">-- Select Genre --</option>
+            <option value="Action">Action</option>
+            <option value="Adventure">Adventure</option>
+            <option value="Comedy">Comedy</option>
+            <option value="Drama">Drama</option>
+            <option value="Fantasy">Fantasy</option>
+            <option value="Romance">Romance</option>
+            <option value="Sci-Fi">Sci-Fi</option>
+            <option value="Slice of Life">Slice of Life</option>
+            <option value="Supernatural">Supernatural</option>
+            <option value="Mystery">Mystery</option>
+          </select>
+        </div>
+
+        <!-- Number of recommendations -->
         <div id="num_recommendations_input" style="display: none">
           <label for="num_recommendations">Number of Recommendations:</label>
           <input
@@ -64,44 +94,60 @@
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-      // Show/hide the user_id, anime_name, and num_recommendations input fields based on the selected recommendation type
-      document
-        .getElementById("recommendation_type")
-        .addEventListener("change", function () {
-          console.log("Change event triggered.");
-          const userIdInput = document.getElementById("user_id_input");
-          const animeIdInput = document.getElementById("anime_name_input");
-          const numRecommendationsInput = document.getElementById(
-            "num_recommendations_input"
-          );
+      const recommendationType = document.getElementById("recommendation_type");
+      const itemMode = document.getElementById("item_mode");
+      const userIdInput = document.getElementById("user_id_input");
+      const itemBasedSubtype = document.getElementById("item_based_subtype");
+      const animeNameInput = document.getElementById("anime_name_input");
+      const genreInputBlock = document.getElementById("genre_input_block");
+      const numRecommendationsInput = document.getElementById("num_recommendations_input");
 
-          if (this.value === "user_based") {
-            userIdInput.style.display = "block";
-            animeIdInput.style.display = "none";
-            numRecommendationsInput.style.display = "block";
-          } else if (this.value === "item_based") {
-            userIdInput.style.display = "none";
-            animeIdInput.style.display = "block";
-            numRecommendationsInput.style.display = "block";
-          } else {
-            userIdInput.style.display = "none";
-            animeIdInput.style.display = "none";
-            numRecommendationsInput.style.display = "none";
-          }
-        });
+      recommendationType.addEventListener("change", function () {
+        const value = this.value;
+        if (value === "user_based") {
+          userIdInput.style.display = "block";
+          itemBasedSubtype.style.display = "none";
+          animeNameInput.style.display = "none";
+          genreInputBlock.style.display = "none";
+          numRecommendationsInput.style.display = "block";
+        } else if (value === "item_based") {
+          userIdInput.style.display = "none";
+          itemBasedSubtype.style.display = "block";
+          animeNameInput.style.display = "none";
+          genreInputBlock.style.display = "none";
+          numRecommendationsInput.style.display = "none";
+        } else {
+          userIdInput.style.display = "none";
+          itemBasedSubtype.style.display = "none";
+          animeNameInput.style.display = "none";
+          genreInputBlock.style.display = "none";
+          numRecommendationsInput.style.display = "none";
+        }
+      });
 
-      // Add event listener to the anime_name input field for autocomplete suggestions
+      itemMode.addEventListener("change", function () {
+        if (this.value === "title") {
+          animeNameInput.style.display = "block";
+          genreInputBlock.style.display = "none";
+        } else if (this.value === "genre") {
+          animeNameInput.style.display = "none";
+          genreInputBlock.style.display = "block";
+        } else {
+          animeNameInput.style.display = "none";
+          genreInputBlock.style.display = "none";
+        }
+        numRecommendationsInput.style.display = "block";
+      });
+
       $("#anime_name").on("input", function () {
         const input = this.value.toLowerCase();
         const dataList = document.getElementById("anime_list");
-
-        // Send AJAX request to the server to get anime name suggestions
         $.ajax({
           url: `/autocomplete`,
           data: { term: input },
           dataType: "json",
           success: function (data) {
-            dataList.innerHTML = ""; // Clear previous options
+            dataList.innerHTML = "";
             data.forEach(function (animeName) {
               const option = document.createElement("option");
               option.value = animeName;
