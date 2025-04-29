@@ -4,6 +4,28 @@ import pandas as pd
 import pickle
 import h5py
 import requests
+def recommend_by_genre(genre, n=10):
+    filtered = df_anime[df_anime['Genres'].str.contains(genre, case=False, na=False)]
+    avg_ratings = df.groupby('anime_id')['rating'].mean().reset_index()
+    avg_ratings.columns = ['anime_id', 'avg_rating']
+    merged = pd.merge(filtered, avg_ratings, on='anime_id')
+    top = merged.sort_values('avg_rating', ascending=False).head(50)
+    sample = top.sample(n=min(n, len(top)))
+    return [{
+        'anime_name': row['Name'],
+        'Genres': row['Genres'],
+        'Score': row['Score'],
+        'Synopsis': row['Synopsis'],
+        'Image URL': row['Image URL'],
+        'anime_id': row['anime_id'],
+        'Rating': row['Rating'],
+        'Episodes': row['Episodes'],
+        'Type': row['Type'],
+        'Aired': row['Aired'],
+        'English Name': row['English name'],
+        'Native name': row['Other name'],
+        'Status': row['Status']
+    } for _, row in sample.iterrows()]
 
 app = Flask(__name__)
 
@@ -11,50 +33,47 @@ def extract_weights(file_path, layer_name):
     with h5py.File(file_path, 'r') as h5_file:
         if layer_name in h5_file:
             weight_layer = h5_file[layer_name]
-            if isinstance(weight_layer, h5py.Dataset):  # Check if it's a dataset (contains weights)
+            if isinstance(weight_layer, h5py.Dataset):  
                 weights = weight_layer[()]
-                # Normalize the weights if needed
                 weights = weights / np.linalg.norm(weights, axis=1).reshape((-1, 1))
                 return [weights]
 
     raise KeyError(f"Unable to find weights for layer '{layer_name}' in the HDF5 file.")
 
-# Provide the correct file path to the model
 file_path = 'model/myanimeweights.h5'
 
-# Extract weights for anime embeddings
 anime_weights = extract_weights(file_path, 'anime_embedding/anime_embedding/embeddings:0')
 
-# Extract weights for user embeddings
 user_weights = extract_weights(file_path, 'user_embedding/user_embedding/embeddings:0')
 
 anime_weights=anime_weights[0]
 user_weights=user_weights[0]
 
-# Also an anime model
 with open('model/anime_encoder.pkl', 'rb') as file:
     anime_encoder = pickle.load(file)
 
 with open('model/user_encoder.pkl', 'rb') as file:
     user_encoder = pickle.load(file)
 
-# Load the dataset for additional information
 with open('model/anime-dataset-2023.pkl', 'rb') as file:
     df_anime = pickle.load(file)
+print("Anime DataFrame loaded:", type(df_anime))
+print("DataFrame shape:", df_anime.shape)
+print("Available columns:", df_anime.columns.tolist())
+print("First few rows:\n", df_anime.head())
+
     
 df_anime = df_anime.replace("UNKNOWN", "")
 
-    
-# Load the user ratings dataset
-df=pd.read_csv('model/users-score-2023.csv', low_memory=True)
 
-# Home route
+df=pd.read_csv('data/users-score-2023.csv', low_memory=True)
+
+
+
 @app.route('/')
 def home():
     return render_template('index.html')
 
-# User-based collaborative filtering
-## Finding similar users
 def find_similar_users(item_input, n=10, return_dist=False, neg=False):
     try:
         index = item_input
@@ -78,7 +97,6 @@ def find_similar_users(item_input, n=10, return_dist=False, neg=False):
     except:
         print('\033[1m{}\033[0m, Not Found in User list'.format(item_input))
 
-## Function to get user preferences
 def get_user_preferences(user_id):
     animes_watched_by_user = df[df['user_id'] == user_id]
     if animes_watched_by_user.empty:
@@ -94,13 +112,12 @@ def get_user_preferences(user_id):
     anime_df_rows = anime_df_rows[["Name", "Genres"]]
     return anime_df_rows
 
-## Finally recommending animes for specific users
 def get_recommended_animes(similar_users, user_pref, n=10):
     recommended_animes = []
     anime_list = []
     for user_id in similar_users.similar_users.values:
         pref_list = get_user_preferences(int(user_id))
-        if not pref_list.empty:  # Check if user has watched any animes
+        if not pref_list.empty:  
             pref_list = pref_list[~pref_list["Name"].isin(user_pref["Name"].values)]
             anime_list.append(pref_list.Name.values)
     if len(anime_list) == 0:
@@ -108,7 +125,7 @@ def get_recommended_animes(similar_users, user_pref, n=10):
         return pd.DataFrame()
     anime_list = pd.DataFrame(anime_list)
     sorted_list = pd.DataFrame(pd.Series(anime_list.values.ravel()).value_counts()).head(n)
-    # Count the occurrences of each anime in the entire dataset
+
     anime_count = df['anime_id'].value_counts()
     for i, anime_name in enumerate(sorted_list.index):
         if isinstance(anime_name, str):
@@ -117,7 +134,7 @@ def get_recommended_animes(similar_users, user_pref, n=10):
                 anime_id = df_anime[df_anime.Name == anime_name].anime_id.values[0]
                 genre = df_anime[df_anime.Name == anime_name].Genres.values[0]                
                 Synopsis = df_anime[df_anime.Name == anime_name].Synopsis.values[0]
-                n_user_pref = anime_count.get(anime_id, 0)  # Get the total count of users who have watched this anime
+                n_user_pref = anime_count.get(anime_id, 0)  
                 english_name = df_anime[df_anime.Name == anime_name]['English name'].values[0]
                 other_name = df_anime[df_anime.Name == anime_name]['Other name'].values[0]
                 score = df_anime[df_anime.Name == anime_name].Score.values[0]
@@ -133,13 +150,11 @@ def get_recommended_animes(similar_users, user_pref, n=10):
                 favorites = df_anime[df_anime.Name == anime_name].Favorites.values[0]
                 duration = df_anime[df_anime.Name == anime_name].Duration.values[0]
                 
-                # Handling status column values
                 if status == "Not yet aired" and aired == "Not available":
                     aired = "TBA"
                 else:
                     aired = "" if aired == "Not available" else aired.replace(" to ", "-")
 
-                # Handling episodes column values
                 if episodes != "":
                     episodes = int(float(episodes))
                     if status == "Currently Airing":
@@ -161,13 +176,10 @@ def get_recommended_animes(similar_users, user_pref, n=10):
                     else:
                         episodes = ""
 
-                # Handling Rating column values
                 rating = rating if rating == "" else rating.split(' - ')[0]
-                
-                # Handling Rank column values
+
                 rank = rank if rank == "" else "#"+str(int(float(rank)))
-                
-                # Making new column episode_duration
+
                 episode_duration = ""
                 if episodes != "":
                     time = ""
@@ -196,7 +208,6 @@ def get_recommended_animes(similar_users, user_pref, n=10):
                 pass
     return pd.DataFrame(recommended_animes)
 
-# Item-based collaborative filtering
 def find_similar_animes(name, n=10, return_dist=False, neg=False):
     try:
         anime_row = df_anime[df_anime['Name'] == name].iloc[0]
@@ -241,13 +252,11 @@ def find_similar_animes(name, n=10, return_dist=False, neg=False):
             favorites = anime_frame['Favorites'].values[0]
             duration = anime_frame['Duration'].values[0]
             
-            # Handling status column values
             if status == "Not yet aired" and aired == "Not available":
                 aired = "TBA"
             else:
                 aired = "" if aired == "Not available" else aired.replace(" to ", "-")
                 
-            # Handling episodes column values
             if episodes != "":
                 episodes = int(float(episodes))
                 if status == "Currently Airing":
@@ -269,13 +278,10 @@ def find_similar_animes(name, n=10, return_dist=False, neg=False):
                 else:
                     episodes = ""
                 
-            # Handling Rating column values
             rating = rating if rating == "" else rating.split(' - ')[0]
-            
-            # Handling Rank column values
+
             rank = rank if rank == "" else "#"+str(int(float(rank)))
-            
-            # Making new column episode_duration
+
             episode_duration = ""
             if episodes != "":
                 time = ""
@@ -305,7 +311,6 @@ def find_similar_animes(name, n=10, return_dist=False, neg=False):
     except:
         print('{} not found in Anime list'.format(name))
 
-# Recommendation route
 @app.route('/recommend', methods=['POST'])
 def recommend():
     recommendation_type = request.form['recommendation_type']
@@ -313,18 +318,18 @@ def recommend():
 
     if recommendation_type == "user_based":
         user_id = request.form['user_id']
-        
+
         if not user_id:
             return render_template('index.html', error_message="Please enter a User ID.", recommendation_type=recommendation_type)
         try:
             user_id = int(user_id)
         except ValueError:
             return render_template('index.html', error_message="Please enter a valid User ID (must be an integer).", recommendation_type=recommendation_type)
-        
-        # Find similar users based on preferences
+
         similar_user_ids = find_similar_users(user_id, n=15, neg=False)
+        print("Hello Im Here bye")
         if similar_user_ids is None or similar_user_ids.empty:
-            url = f'https://api.jikan.moe/v4/users/userbyid/{user_id}'  # Check if the user_id exists using Jikan API
+            url = f'https://api.jikan.moe/v4/users/userbyid/{user_id}'
             response = requests.get(url)
             if response.status_code == 200:
                 data = response.json()
@@ -339,39 +344,81 @@ def recommend():
         similar_user_ids = similar_user_ids[similar_user_ids.similarity > 0.4]
         similar_user_ids = similar_user_ids[similar_user_ids.similar_users != user_id]
 
-        # Get user preferences from the dataset
         user_pref = get_user_preferences(user_id)
-
-        # Get recommended animes for the user
         recommended_animes = get_recommended_animes(similar_user_ids, user_pref, n=num_recommendations)
         return render_template('recommendations.html', animes=recommended_animes, recommendation_type=recommendation_type)
 
     elif recommendation_type == "item_based":
-        anime_name = request.form['anime_name']
-        
-        if not anime_name:
-            return render_template('index.html', error_message="Please enter Anime name.", recommendation_type=recommendation_type)
-        
-        recommended_animes = find_similar_animes(anime_name, n=num_recommendations, return_dist=False, neg=False)
-        if recommended_animes is None or recommended_animes.empty:
-            message2 = "Anime " + str(anime_name) + " does not exist"
-            return render_template('recommendations.html', message=message2, animes=None, recommendation_type=recommendation_type)
-        
-        return render_template('recommendations.html', animes=recommended_animes, recommendation_type=recommendation_type)
+        item_mode = request.form.get('item_mode')
+
+        if item_mode == "title":
+            anime_name = request.form['anime_name']
+
+            if not anime_name:
+                return render_template('index.html', error_message="Please enter Anime name.", recommendation_type=recommendation_type)
+
+            recommended_animes = find_similar_animes(anime_name, n=num_recommendations, return_dist=False, neg=False)
+            if recommended_animes is None or recommended_animes.empty:
+                message2 = "Anime " + str(anime_name) + " does not exist"
+                return render_template('recommendations.html', message=message2, animes=None, recommendation_type=recommendation_type)
+
+            return render_template('recommendations.html', animes=recommended_animes, recommendation_type=recommendation_type)
+
+        elif item_mode == "genre":
+            genre = request.form['genre_input']
+
+            if not genre:
+                return render_template('index.html', error_message="Please select a genre.", recommendation_type=recommendation_type)
+
+            genre_filtered = df_anime[df_anime['Genres'].str.contains(genre, case=False, na=False)].copy()
+            genre_filtered = genre_filtered.sort_values(by='Score', ascending=False).head(num_recommendations)
+
+            recommendations = []
+            for _, row in genre_filtered.iterrows():
+                try:
+                    recommendations.append({
+                        "anime_image_url": row['Image URL'],
+                        "anime_name": row['Name'],
+                        "Genres": row['Genres'],
+                        "Synopsis": row['Synopsis'],
+                        "English Name": row['English name'],
+                        "Native name": row['Other name'],
+                        "Score": row['Score'],
+                        "Type": row['Type'],
+                        "Aired": row['Aired'],
+                        "Premiered": row['Premiered'],
+                        "Episodes": row['Episodes'],
+                        "Status": row['Status'],
+                        "Studios": row['Studios'],
+                        "Source": row['Source'],
+                        "Rating": row['Rating'],
+                        "Rank": row['Rank'],
+                        "Favorites": row['Favorites'],
+                        "Duration": row['Duration'],
+                        "anime_id": row['anime_id']
+                    })
+                except:
+                    continue
+
+            recommended_df = pd.DataFrame(recommendations)
+            return render_template('recommendations.html', animes=recommended_df, recommendation_type=recommendation_type)
+
+        else:
+            return render_template('index.html', error_message="Please select a valid item-based mode.", recommendation_type=recommendation_type)
 
     else:
         return render_template('index.html', error_message="Please select a recommendation type.")
 
-# New route to handle anime name autocomplete
 @app.route('/autocomplete', methods=['GET'])
 def autocomplete():
-    search_term = request.args.get('term')
+    search_term = request.args.get('term', '')
     if search_term:
-        filtered_animes = df_anime[df_anime['Name'].str.contains(search_term, case=False)]
+        filtered_animes = df_anime[df_anime['Name'].str.contains(search_term, case=False, na=False)]
         anime_names = filtered_animes['Name'].tolist()
-    # else:
-    #     anime_names = df_anime['Name'].tolist()
+    else:
+        anime_names = []
     return jsonify(anime_names)
+
 
 if __name__ == '__main__':
     app.run(debug=True)

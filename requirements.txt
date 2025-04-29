@@ -76,7 +76,6 @@ nbformat==5.9.1
 nest-asyncio==1.5.7
 notebook==7.0.0
 notebook_shim==0.2.3
-numpy==1.24.3
 oauthlib==3.2.2
 opt-einsum==3.3.0
 overrides==7.3.1

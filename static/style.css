@@ -4,26 +4,26 @@
 
 body {
   font-family: Arial, sans-serif;
-  background-color: #212025; /* Pitch-black background */
+  background-color: #11dc15; 
   margin: 0;
   padding: 0;
-  color: #fff; /* Text color to be white */
+  color: #fff; 
 }
 
 .container {
   max-width: 600px;
   margin: 50px auto;
   padding: 20px;
-  background-color: #222; /* Darker background for the container */
-  border: 1px solid #444; /* Darker border color */
+  background-color: #e6ee0e; 
+  border: 1px solid #db1010; 
   border-radius: 5px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5); /* Slightly darker shadow */
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5); 
 }
 
 h1 {
   text-align: center;
   margin-bottom: 20px;
-  color: #00ffcc; /* Neon green color for the header */
+  color: #0889e6; 
 }
 
 form {
@@ -42,11 +42,11 @@ select,
 input[type="text"],
 input[type="number"] {
   padding: 8px;
-  border: 1px solid #666; /* Darker border color */
+  border: 1px solid #666; 
   border-radius: 4px;
   margin-bottom: 10px;
-  background-color: #333; /* Darker background for the inputs */
-  color: #fff; /* Text color to be white */
+  background-color: #333; 
+  color: #fff; 
 }
 
 input[type="text"],
@@ -56,21 +56,21 @@ input[type="number"] {
 
 input[type="submit"] {
   padding: 8px;
-  border: 1px solid #666; /* Darker border color */
+  border: 1px solid #666; 
   border-radius: 4px;
   margin-bottom: 10px;
-  background-color: #00cc99; /* Slightly toned down neon green color for the submit button */
-  color: #000; /* Text color to be black */
+  background-color: #e20b0b; 
+  color: #14ef0c; 
   font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
     "Lucida Sans", Arial, sans-serif;
   cursor: pointer;
 }
 
 input[type="submit"]:hover {
-  background-color: #00b386; /* Slightly darker neon green on hover */
+  background-color: #00b386; 
 }
 
-/* Hide the user_id_input and anime_id_input divs by default */
+
 #user_id_input,
 #anime_id_input {
   display: none;
@@ -87,7 +87,7 @@ input[type="submit"]:hover {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #00cc99;
+  background: #e1380e;
   border-radius: 12px;
   width: 10px;
   height: 5px;
@@ -95,5 +95,5 @@ input[type="submit"]:hover {
 
 ::-webkit-scrollbar-thumb:hover {
   background: #005472;
-  /* Set the color of the scroll bar thumb on hover */
+
 }
