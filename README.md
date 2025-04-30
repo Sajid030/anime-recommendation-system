@@ -1,3 +1,8 @@
+## Package Installation
+
+pip install requirements.txt
+
+
 ## Directory Tree
 
 ```
@@ -9,16 +14,17 @@
 |   README.md
 |   requirements.txt
 |
++---data
+|       anime-dataset-2023.csv
+|       fine_tune.csv
+|       users-details-2023.csv
+|       users-score-2023.csv
 +---model
 |       anime-dataset-2023.pkl
 |       anime_encoder.pkl
 |       myanimeweights.h5
 |       users-score-2023.csv
 |       user_encoder.pkl
-|
-+---notebooks
-|       anime-recommendation-1.ipynb
-|       anime-recommendation-2.ipynb
 |
 +---resource
 |       anime.mp4
