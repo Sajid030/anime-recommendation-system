@@ -8,27 +8,21 @@ pip install requirements.txt
 ```
 |   .gitignore
 |   app.py
+|   training.py
 |   LICENSE.md
 |   package-lock.json
 |   package.json
 |   README.md
 |   requirements.txt
 |
-+---data
-|       anime-dataset-2023.csv
-|       fine_tune.csv
-|       users-details-2023.csv
-|       users-score-2023.csv
 +---model
 |       anime-dataset-2023.pkl
 |       anime_encoder.pkl
 |       myanimeweights.h5
 |       users-score-2023.csv
 |       user_encoder.pkl
-|
-+---resource
-|       anime.mp4
-|
++---trained_weights
+|       model.weights.h5
 +---static
 |       main.css
 |       style.css
