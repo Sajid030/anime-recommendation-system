@@ -38,7 +38,3 @@ pip install requirements.txt
         recommendations.html
 ```
 
-## Bug / Feature Request
-
-If you encounter any bugs or issues with the anime recommendation app, please let me know by opening an issue on my [GitHub repository](https://github.com/Sajid030/anime-recommendation-system/issues). Be sure to include the details of your query and the expected results. Your feedback is valuable in helping me improve the app for all users. Thank you for your support!
-
