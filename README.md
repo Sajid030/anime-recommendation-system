@@ -25,7 +25,7 @@
 
 ## Demo
 
-- Link: [Anime-Recommender](https://huggingface.co/spaces/Sajid030/anime-recommender)
+- Link: [Anime-Recommender](https://sajid030-anime-recommender.hf.space/)
 
 Note: If the website link provided above is not working, it might mean that the deployment has been stopped or there are technical issues. We apologize for any inconvenience.
 
